@@ -1,75 +1,164 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const video = document.getElementById('video');
-    const canvasElement = document.getElementById('canvas');
-    const canvas = canvasElement.getContext('2d', { willReadFrequently: true }); // Añadir el atributo willReadFrequently
-    const barcodeReaderResults = document.getElementById('barcode-reader-results');
-    const stopButton = document.getElementById('stop-button');
-    const restartButton = document.getElementById('restart-button');
-    let videoStream = null;
-    let scanning = true;
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const canvasContext = canvas.getContext("2d");
+    const barcodeReaderResults = document.getElementById("barcode-reader-results");
+    const fileInput = document.getElementById("file-input");
+    let scanning = false;
 
-
-    function restartScanning(){
-        startVideoStream();
-    }
-
-    function startVideoStream() {
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+    function startVideo() {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then((stream) => {
             video.srcObject = stream;
-            videoStream = stream;
-            video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+            video.setAttribute("playsinline", true); // necesario para que funcione en iOS
             video.play();
+            scanning = true;
             requestAnimationFrame(tick);
         });
     }
 
+    function stopVideo() {
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+
+        tracks.forEach((track) => {
+            track.stop();
+        });
+
+        video.srcObject = null;
+        scanning = false;
+    }
+
     function tick() {
-        if (!scanning) {
-            return;
-        }
+        if (!scanning) return;
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
-            canvasElement.height = video.videoHeight;
-            canvasElement.width = video.videoWidth;
-            canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-            const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-            const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                inversionAttempts: "dontInvert",
-            });
+            canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
 
             if (code) {
-                barcodeReaderResults.innerText = `Resultado: ${code.data}`;
-                drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-                drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-                drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-                drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+                drawLine(code.location.topLeftCorner, code.location.topRightCorner, "red");
+                drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "red");
+                drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "red");
+                drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "red");
 
-                return; // Detener después de encontrar el código
-            } else {
-                barcodeReaderResults.innerText = "No se detectó ningún código QR.";
+                barcodeReaderResults.innerText = `Código QR Detectado: ${code.data}`;
+                scanning = false; // Detener el escaneo después de detectar el QR
+                fetchParticipantData(code.data);
             }
         }
         requestAnimationFrame(tick);
     }
 
     function drawLine(begin, end, color) {
-        canvas.beginPath();
-        canvas.moveTo(begin.x, begin.y);
-        canvas.lineTo(end.x, end.y);
-        canvas.lineWidth = 4;
-        canvas.strokeStyle = color;
-        canvas.stroke();
+        canvasContext.beginPath();
+        canvasContext.moveTo(begin.x, begin.y);
+        canvasContext.lineTo(end.x, end.y);
+        canvasContext.lineWidth = 4;
+        canvasContext.strokeStyle = color;
+        canvasContext.stroke();
     }
 
-    function stopScanning() {
-        scanning = false;
-        if (videoStream) {
-            videoStream.getTracks().forEach(track => track.stop());
+    function fetchParticipantData(cedula) {
+        fetch(`http://localhost/lectorqr/controllers/search_by_cedula.php?cedula=${cedula}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Datos recibidos:", data);
+                if (data.length > 0) {
+                    const persona = data[0];
+                    registrarAsistencia(persona);
+                } else {
+                    console.error('No se encontró la persona con la cédula proporcionada.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener datos:', error);
+                barcodeReaderResults.innerText = "Error al procesar la respuesta del servidor.";
+            });
+    }
+
+    function registrarAsistencia(persona) {
+        const fecha = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+        const horaEntrada = new Date().toLocaleTimeString('es-CO', { hour12: false }); // Obtener la hora actual en formato HH:mm:ss
+        const horaSalida = new Date().toLocaleTimeString('es-CO', { hour12: false }); // Puedes ajustar esto según sea necesario
+    
+        const asistenciaData = {
+            fecha: fecha,
+            Nombre: persona.Nombre,
+            cedula: persona.cedula,
+            telefono: persona.telefono,
+            cargo: persona.cargo,
+            hora_entrada: horaEntrada,
+            hora_salida: horaSalida
+        };
+    
+        // Convertir el objeto asistenciaData a JSON
+        const jsonAsistenciaData = JSON.stringify(asistenciaData);
+    
+        console.log(jsonAsistenciaData); // Muestra los datos convertidos a JSON en la consola
+    
+        fetch('http://localhost/lectorqr/controllers/sendattendance.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonAsistenciaData 
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            console.log('Asistencia registrada:', data);
+            barcodeReaderResults.innerText += "\nAsistencia registrada exitosamente.";
+        })
+        .catch(error => {
+            console.error('Error al registrar la asistencia:', error);
+            barcodeReaderResults.innerText += `\nError al registrar la asistencia: ${error.message}`;
+        });
+    }
+    
+    
+
+    document.getElementById("stop-button").addEventListener("click", () => {
+        stopVideo();
+        barcodeReaderResults.innerText = "Cámara detenida.";
+    });
+
+    document.getElementById("restart-button").addEventListener("click", () => {
+        if (!scanning) {
+            barcodeReaderResults.innerText = "";
+            startVideo();
         }
-        video.srcObject = null;
-    }
+    });
 
+    fileInput.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
 
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
+                const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
 
-    stopButton.addEventListener('click', stopScanning);
-    restartButton.addEventListener('click', restartScanning);
+                if (code) {
+                    barcodeReaderResults.innerText = `Código QR Detectado: ${code.data}`;
+                    fetchParticipantData(code.data);
+                } else {
+                    barcodeReaderResults.innerText = "No se detectó ningún código QR.";
+                }
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    startVideo();
 });

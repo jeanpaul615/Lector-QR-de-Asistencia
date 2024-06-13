@@ -3,25 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lector de Código QR Simtraemsdes</title>
-  <link rel="stylesheet" href="style.css"> <!-- Aquí se incluirá el CSS personalizado si es necesario -->
-  <!-- Incluir Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+  <title>Lector de Código QR Sintraemsdes</title>
+  <link rel="stylesheet" href="style.css"> 
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> 
+  <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
 </head>
-<body class="bg-gray-200">
-  <div id="barcode-reader-container" class="container mx-auto p-4 justify-center items-center flex">
-    <button id="list-button" onclick="window.location.href='datatable/datatable.html'" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-      <a>Lista de participantes</a>
-    </button>
-    <h1 class="text-3xl font-bold mt-4 mb-2">Asistencia de sintraemsdes</h1>
-    <video id="video" width="500" height="300" class="border border-black"></video>
-    <canvas id="canvas" width="500" height="300" class="hidden"></canvas>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
+  <header class="text-center">
+    <h1 class="text-3xl font-bold mt-4 mb-40">Asistencia de Sintraemsdes</h1>
+  </header>
+  <div id="barcode-reader-container" class="container mx-auto p-4">
+    <div class="flex justify-center mb-4">
+      <button id="list-button" onclick="window.location.href='../datatable/datatable.html'" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Lista de participantes</button>
+      <button id="list-button" onclick="window.location.href='../createqr/index.html'" class="bg-gray-700 hover:bg-black text-white font-bold py-2 px-4 rounded ml-4">Crear nuevo QR</button>
+    </div>
+    <video id="video" width="500" height="300" class="border border-black mx-auto"></video>
+    <canvas id="canvas" width="500" height="300" class="hidden mx-auto"></canvas>
     <div id="barcode-reader-results" class="mt-4"></div>
-    <button id="stop-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-2 mr-2">Detener Escaneo</button>
-    <button id="restart-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-2">Reanudar Escaneo</button>
+    <div class="flex justify-center mt-4">
+      <button onclick="location.reload()" id="stop-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2">Detener Escaneo</button>
+      <button id="restart-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Reanudar Escaneo</button>
+    </div>
   </div>
-  
   <script src="script.js"></script>
 </body>
 </html>

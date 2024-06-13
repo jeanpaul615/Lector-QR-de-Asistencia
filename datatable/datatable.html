@@ -4,50 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LISTA DE PARTICIPANTES</title>
-  <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- DataTables CSS -->
   <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
   <div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-4">Lista de Participantes</h1>
-    <table id="myTable" class="min-w-full divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg">
-        <thead class="bg-gray-800 text-white">
-            <tr>
-                <th class="px-6 py-3 text-left">Columna 1</th>
-                <th class="px-6 py-3 text-left">Columna 2</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap">Dato 1 - Fila 1</td>
-                <td class="px-6 py-4 whitespace-nowrap">Dato 2 - Fila 1</td>
-            </tr>
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap">Dato 1 - Fila 2</td>
-                <td class="px-6 py-4 whitespace-nowrap">Dato 2 - Fila 2</td>
-            </tr>
-            <!-- Añadir más filas según sea necesario -->
-        </tbody>
+    <h1 class="text-3xl font-bold mb-4">Lista de Participantes</h1>     
+    <table id="myTable" class="min-w-full divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg mt-4">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="px-6 py-3 text-left">Fecha</th>
+          <th class="px-6 py-3 text-left">ID</th>
+          <th class="px-6 py-3 text-left">Nombre</th>
+          <th class="px-6 py-3 text-left">Cedula</th>
+          <th class="px-6 py-3 text-left">Telefono</th>
+          <th class="px-6 py-3 text-left">Hora Entrada</th>
+          <th class="px-6 py-3 text-left">Hora Salida</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <!-- Aquí se agregarán las filas dinámicamente -->
+      </tbody>
     </table>
   </div>
-  
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- DataTables JS -->
-  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script>
     $(document).ready(function() {
-        $('#myTable').DataTable({
-            paging: true,
-            info: true,
-            searching: true,
-            lengthMenu: [5, 10, 25, 50, 100],
-            responsive: true
-        });
+      // Inicializar DataTables
+      $('#myTable').DataTable({
+        "paging": true,
+        "info": true,
+        "searching": true,
+        "lengthMenu": [5, 10, 25, 50, 100],
+        "responsive": true
+      });
     });
+
+    // Función para agregar datos a la tabla
+    function agregarDatosATabla(data) {
+      const tbody = $('#myTable tbody');
+      tbody.empty();
+
+      data.forEach(item => {
+        const row = $('<tr>').appendTo(tbody);
+        $('<td>').text(fecha).appendTo(row);
+        $('<td>').text(item.id_persona).appendTo(row);
+        $('<td>').text(item.Nombre).appendTo(row);
+        $('<td>').text(item.cedula).appendTo(row);
+        $('<td>').text(item.telefono).appendTo(row);
+        $('<td>').text(item.cargo).appendTo(row);
+        $('<td>').text(item.hora_entrada).appendTo(row);
+        $('<td>').text(item.hora_salida).appendTo(row);
+
+      });
+
+      $('#myTable').DataTable().clear().rows.add(data).draw();
+    }
   </script>
 </body>
 </html>
