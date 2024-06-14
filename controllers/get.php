@@ -1,7 +1,7 @@
 <?php
 include 'cors.php';
-include 'config.php';
-//Esta api es la encargada de traer los datos de la asistencia para imprimir en la datatable
+include 'config.php'; // Asegúrate de que config.php contenga la configuración de la conexión a la base de datos
+
 try {
     // Realizamos la consulta a la base de datos
     $consulta = $base_de_datos->query("SELECT * FROM asistencia");

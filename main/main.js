@@ -79,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function registrarAsistencia(persona) {
         const fecha = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
         const horaEntrada = new Date().toLocaleTimeString('es-CO', { hour12: false }); // Obtener la hora actual en formato HH:mm:ss
-        const horaSalida = new Date().toLocaleTimeString('es-CO', { hour12: false }); // Puedes ajustar esto según sea necesario
     
         const asistenciaData = {
             fecha: fecha,
@@ -88,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
             telefono: persona.telefono,
             cargo: persona.cargo,
             hora_entrada: horaEntrada,
-            hora_salida: horaSalida
         };
     
         // Convertir el objeto asistenciaData a JSON
@@ -117,8 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
             barcodeReaderResults.innerText += "\nAsistencia registrada exitosamente.";
         })
         .catch(error => {
-            console.error('Error al registrar la asistencia:', error);
-            barcodeReaderResults.innerText += `\nError al registrar la asistencia: ${error.message}`;
+            console.error('Ya te encuentras en la lista de asistencia',error);
+            barcodeReaderResults.innerText += '\nYa te encuentras en la lista de asistencia',error;
         });
     }
     

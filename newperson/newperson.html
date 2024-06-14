@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Nueva Persona</title>
+    <!-- Incluir Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 py-6">
+    <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-md">
+        <h2 class="text-center text-2xl font-bold py-4 bg-gray-200">Nueva Persona</h2>
+        <form action="../controllers/newperson.php" method="POST" class="px-6 py-4">
+
+            <!-- Nombre -->
+            <div class="mb-4">
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+                <input type="text" id="nombre" name="nombre"
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Cédula -->
+            <div class="mb-4">
+                <label for="cedula" class="block text-sm font-medium text-gray-700">Cédula:</label>
+                <input type="text" id="cedula" name="cedula" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Teléfono -->
+            <div class="mb-4">
+                <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono"
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Cargo -->
+            <div class="mb-4">
+                <label for="cargo" class="block text-sm font-medium text-gray-700">Cargo:</label>
+                <input type="text" id="cargo" name="cargo" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Botón de guardar -->
+            <div class="flex justify-center">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

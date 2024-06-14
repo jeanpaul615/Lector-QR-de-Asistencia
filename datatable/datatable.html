@@ -14,7 +14,6 @@
       <thead class="bg-gray-800 text-white">
         <tr>
           <th class="px-6 py-3 text-left">Fecha</th>
-          <th class="px-6 py-3 text-left">ID</th>
           <th class="px-6 py-3 text-left">Nombre</th>
           <th class="px-6 py-3 text-left">Cedula</th>
           <th class="px-6 py-3 text-left">Telefono</th>
@@ -31,8 +30,19 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script>
-    $(document).ready(function() {
-      // Inicializar DataTables
+$(document).ready(function() {
+  // Llamar a la función para obtener y agregar datos a la tabla al cargar la página
+  obtenerDatosAsistencia();
+});
+
+// Función para obtener datos de asistencia desde la API y agregarlos a la tabla
+function obtenerDatosAsistencia() {
+  fetch('http://localhost/lectorqr/controllers/get.php')
+    .then(response => response.json())
+    .then(data => {
+      console.log("Datos recibidos:", data);
+      agregarDatosATabla(data); // Llamar a la función para agregar datos a la tabla
+      // Inicializar DataTables después de agregar los datos
       $('#myTable').DataTable({
         "paging": true,
         "info": true,
@@ -40,28 +50,29 @@
         "lengthMenu": [5, 10, 25, 50, 100],
         "responsive": true
       });
+    })
+    .catch(error => {
+      console.error('Error al obtener datos de asistencia:', error);
+      // Manejar el error según sea necesario
     });
+}
 
-    // Función para agregar datos a la tabla
-    function agregarDatosATabla(data) {
-      const tbody = $('#myTable tbody');
-      tbody.empty();
+// Función para agregar datos a la tabla
+function agregarDatosATabla(data) {
+  const tbody = $('#myTable tbody');
+  tbody.empty();
 
-      data.forEach(item => {
-        const row = $('<tr>').appendTo(tbody);
-        $('<td>').text(fecha).appendTo(row);
-        $('<td>').text(item.id_persona).appendTo(row);
-        $('<td>').text(item.Nombre).appendTo(row);
-        $('<td>').text(item.cedula).appendTo(row);
-        $('<td>').text(item.telefono).appendTo(row);
-        $('<td>').text(item.cargo).appendTo(row);
-        $('<td>').text(item.hora_entrada).appendTo(row);
-        $('<td>').text(item.hora_salida).appendTo(row);
+  data.forEach(item => {
+    const row = $('<tr>').appendTo(tbody);
+    $('<td>').text(item.fecha).appendTo(row);
+    $('<td>').text(item.nombre).appendTo(row);
+    $('<td>').text(item.cedula).appendTo(row);
+    $('<td>').text(item.telefono).appendTo(row);
+    $('<td>').text(item.hora_entrada).appendTo(row);
+    $('<td>').text(item.hora_salida).appendTo(row);
+  });
+}
 
-      });
-
-      $('#myTable').DataTable().clear().rows.add(data).draw();
-    }
   </script>
 </body>
 </html>

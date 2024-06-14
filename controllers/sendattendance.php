@@ -14,7 +14,7 @@ if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
 }
 
 // Verificar que los campos requeridos estén presentes en el array $data
-$requiredFields = ['fecha', 'Nombre', 'cedula', 'telefono', 'cargo', 'hora_entrada', 'hora_salida'];
+$requiredFields = ['fecha', 'Nombre', 'cedula', 'telefono', 'cargo', 'hora_entrada'];
 
 foreach ($requiredFields as $field) {
     if (!isset($data[$field])) {
@@ -30,7 +30,7 @@ $cedula = $data['cedula'];
 $telefono = $data['telefono'];
 $cargo = $data['cargo'];
 $hora_entrada = $data['hora_entrada'];
-$hora_salida = $data['hora_salida'];
+$hora_salida = isset($data['hora_salida']) ? $data['hora_salida'] : null; // Asignar hora_salida si está presente, de lo contrario, nulo
 
 // Conexión a la base de datos
 $servername = "localhost";
