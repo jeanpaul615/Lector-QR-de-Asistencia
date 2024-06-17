@@ -1,75 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lector de Código QR Sintraemsdes</title>
-    <link rel="stylesheet" href="main.css">
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
 </head>
-
 <body class="bg-gray-200 flex">
     <!-- Sidebar -->
-    <aside class="bg-gray-800 text-gray-100 h-screen w-64 fixed left-0 top-0 overflow-y-auto">
-        <div class="flex flex-col h-full">
-            <div class="flex items-center justify-center h-20 border-b border-gray-700">
-                <h1 class="text-3xl font-bold">Menú</h1>
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center justify-start">
+                    <a href="#" class="flex items-center font-bold">
+                        <img src="your-logo.png" alt="Sintraemsdes Logo" class="h-8 mr-3">
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                        <span class="sr-only">Open user menu</span>
+                        <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                    </button>
+                    <div class="hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                        <!-- Dropdown content here -->
+                    </div>
+                </div>
             </div>
-            <ul class="py-4">
-                <li>
-                    <button onclick="window.location.href='../main/main.html'"
-                        class="block w-full py-2 px-4 text-sm text-left font-bold text-gray-200 hover:bg-gray-700">
-                        Lector de Asistencia Qr
-                    </button>
-                <li>
-                <li>
-                    <button onclick="window.location.href='../markout/markout.html'"
-                        class="block w-full py-2 px-4 text-sm text-left font-bold text-gray-200 hover:bg-gray-700">
-                        Marcar Salida
-                    </button>
-                </li>
-                <li>
-                    <button onclick="window.location.href='../datatable/datatable.html'"
-                        class="block w-full py-2 px-4 text-sm text-left font-bold text-gray-200 hover:bg-gray-700">
-                        Lista de participantes
-                    </button>
-                </li>
-                <li>
-                    <button onclick="window.location.href='../createqr/createqr.html'"
-                        class="block w-full py-2 px-4 text-sm text-left font-bold text-gray-200 hover:bg-gray-700">
-                        Crear nuevo QR
-                    </button>
-                </li>
-                <li>
-                    <button onclick="window.location.href='../newperson/newperson.html'"
-                        class="block w-full py-2 px-4 text-sm text-left font-bold text-gray-200 hover:bg-gray-700">
-                        Nueva Persona
-                    </button>
-                </li>
-            </ul>
         </div>
-    </aside>
+    </nav>
+
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div class="h-full px-3 pb-4 overflow-y-auto">
+        <ul class="space-y-2 font-medium">
+            <li>
+                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                        <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
+                        <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
+                    </svg>
+                    <span class="ml-3">Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="../markout/markout.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="M15 12a1 1 0 0 1-1-1V8.586l-5 5a1 1 0 0 1-1.414 0l-5-5V11a1 1 0 0 1-2 0V5a1 1 0 0 1 1-1h6a1 1 0 0 1 0 2H3.414l4 4 4-4H11a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1Z"/>
+                        <path d="M17 18H1a1 1 0 1 0 0 2h16a1 1 0 1 0 0-2Z"/>
+                    </svg>
+                    <span class="ml-3 flex-1 whitespace-nowrap">Marcar Salida</span>
+                    <span class="inline-flex items-center justify-center px-2 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-blue-300">3</span>
+                </a>
+            </li>
+            <li>
+                <a href="../datatable/datatable.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M9 1a8 8 0 1 0 8 8A8.009 8.009 0 0 0 9 1Zm3.707 7.707-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L8 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                    </svg>
+                    <span class="ml-3 flex-1 whitespace-nowrap">Lista de Asistentes</span>
+                </a>
+            </li>
+            <li>
+                <a href="../createqr/createqr.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="M1 0a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2H1Zm2 16V6a1 1 0 0 0-2 0v10a4 4 0 0 0 4 4h10a1 1 0 0 0 0-2H5a2 2 0 0 1-2-2ZM16 4a1 1 0 0 0 0 2 2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a1 1 0 1 0 0 2h10a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4Z"/>
+                    </svg>
+                    <span class="ml-3 flex-1 whitespace-nowrap">Crear nuevo Qr</span>
+                </a>
+            </li>
+            <li>
+                <a href="../newperson/newperson.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M15.008 3.5 9.507 9l5.501 5.5a1 1 0 1 1-1.414 1.414L8.1 10.414l-5.5 5.5a1 1 0 0 1-1.415-1.414L6.686 9 1.186 3.5A1 1 0 0 1 2.6 2.086L8.1 7.586l5.494-5.5a1 1 0 1 1 1.414 1.414Z"/>
+                    </svg>
+                    <span class="ml-3 flex-1 whitespace-nowrap">Nueva Persona</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+
 
     <!-- Contenido principal -->
-    <div class="ml-64 flex-1 flex flex-col items-center justify-center min-h-screen">
-        <header>
-            <h1 class="text-3xl font-bold mt-4 mb-8">Asistencia de Sintraemsdes</h1>
+    <div class="ml-64 flex-1 flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <header class="w-full py-4 bg-blue-600 text-white text-center">
+            <h1 class="text-4xl font-extrabold">Asistencia de Sintraemsdes</h1>
         </header>
-        <div id="barcode-reader-container" class="container mx-auto p-4">
-            <div class="flex justify-center mb-4">
-                <video id="video" width="500" height="300" class="border border-black"></video>
-                <canvas id="canvas" width="500" height="300" class="hidden"></canvas>
+        <div id="barcode-reader-container" class="container mx-auto p-8 bg-white rounded-lg shadow-lg mt-8">
+            <div class="flex justify-center mb-6">
+                <video id="video" width="600" height="400" class="border-4 border-gray-300 rounded-lg"></video>
+                <canvas id="canvas" width="600" height="400" class="hidden"></canvas>
             </div>
-            <div id="barcode-reader-results" class="mt-4"></div>
-            <div class="flex justify-center mt-4">
-                <button id="stop-button" onclick="stopVideo()"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-2">
+            <div id="barcode-reader-results" class="mt-4 text-center text-lg text-gray-700"></div>
+            <div class="flex justify-center mt-6 space-x-4">
+                <button id="stop-button" onclick="stopVideo()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow">
                     Detener Escaneo
                 </button>
-                <button id="restart-button" onclick="restartVideo()"
-                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                <button id="restart-button" onclick="restartVideo()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow">
                     Reanudar Escaneo
                 </button>
             </div>
@@ -77,5 +104,5 @@
     </div>
 
     <script src="main.js"></script>
-    </body>
-    </html>
+</body>
+</html>

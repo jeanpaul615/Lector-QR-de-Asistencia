@@ -1,6 +1,6 @@
 <?php
 include 'cors.php';
-include 'config.php'; // Asegúrate de que config.php contenga la configuración de la conexión a la base de datos
+include 'config.php'; 
 
 try {
     // Realizamos la consulta a la base de datos
