@@ -21,29 +21,30 @@ try {
     // Verificar que se han recibido los campos obligatorios
 
     // Asignar los datos recibidos a variables
+    $Fecha = $data['Fecha'];
+    $Nombre = $data['Nombre'];
     $cedula = $data['cedula'];
-    $nombre = $data['Nombre'];
-    $telefono = $data['telefono'];
-    $cargo = $data['cargo'];
-    $fecha = $data['fecha'];
-    $hora_entrada = $data['hora_entrada'];
-    $hora_salida = $data['hora_salida'];
+    $Telefono = $data['Telefono'];
+    $Cargo = $data['Cargo'];
+    $Hora_entrada = $data['Hora_entrada'];
+    $Hora_salida = $data['Hora_salida'];
 
     // Preparar la declaración SQL para actualizar la asistencia
-    $stmt = $conn->prepare("UPDATE asistencia SET nombre = :nombre, telefono = :telefono, cargo = :cargo, fecha = :fecha, hora_entrada = :hora_entrada, hora_salida = :hora_salida WHERE cedula = :cedula");
-    $stmt->bindParam(':nombre', $nombre);
-    $stmt->bindParam(':telefono', $telefono);
-    $stmt->bindParam(':cargo', $cargo);
-    $stmt->bindParam(':fecha', $fecha);
-    $stmt->bindParam(':hora_entrada', $hora_entrada);
-    $stmt->bindParam(':hora_salida', $hora_salida);
+    $stmt = $conn->prepare("UPDATE asistencias SET Fecha = :Fecha, Nombre = :Nombre, Telefono = :Telefono, Cargo = :Cargo,  Hora_entrada = :Hora_entrada, Hora_salida = :Hora_salida WHERE cedula = :cedula");
+    $stmt->bindParam(':Fecha', $Fecha);
+    $stmt->bindParam(':Nombre', $Nombre);
     $stmt->bindParam(':cedula', $cedula);
+    $stmt->bindParam(':Telefono', $Telefono);
+    $stmt->bindParam(':Cargo', $Cargo);
+    $stmt->bindParam(':Hora_entrada', $Hora_entrada);
+    $stmt->bindParam(':Hora_salida', $Hora_salida);
+
     $stmt->execute();
 
     // Verificar si la actualización fue exitosa
     $affected_rows = $stmt->rowCount();
     if ($affected_rows > 0) {
-        echo json_encode(array('message' => 'Asistencia registrada correctamente.'));
+        echo json_encode(array('message' => 'Salida registrada correctamente.'));
     } else {
         echo json_encode(array('error' => 'No se pudo actualizar la asistencia o no se encontró el participante.'));
     }

@@ -14,7 +14,7 @@ if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
 }
 
 // Verificar que los campos requeridos estén presentes en el array $data
-$requiredFields = ['fecha', 'Nombre', 'cedula', 'telefono', 'cargo', 'hora_entrada'];
+$requiredFields = ['Fecha', 'Nombre', 'cedula', 'Telefono', 'Cargo', 'Hora_entrada'];
 
 foreach ($requiredFields as $field) {
     if (!isset($data[$field])) {
@@ -24,13 +24,13 @@ foreach ($requiredFields as $field) {
 }
 
 // Extraer datos del array $data
-$fecha = $data['fecha'];
+$Fecha = $data['Fecha'];
 $Nombre = $data['Nombre'];
 $cedula = $data['cedula'];
-$telefono = $data['telefono'];
-$cargo = $data['cargo'];
-$hora_entrada = $data['hora_entrada'];
-$hora_salida = isset($data['hora_salida']) ? $data['hora_salida'] : null; // Asignar hora_salida si está presente, de lo contrario, nulo
+$Telefono = $data['Telefono'];
+$Cargo = $data['Cargo'];
+$Hora_entrada = $data['Hora_entrada'];
+$Hora_salida = isset($data['Hora_salida']) ? $data['Hora_salida'] : null; // Asignar hora_salida si está presente, de lo contrario, nulo
 
 // Conexión a la base de datos
 $servername = "localhost";
@@ -48,7 +48,7 @@ if ($conn->connect_error) {
 }
 
 // Preparar consulta SQL para insertar asistencia (usando sentencias preparadas)
-$sql = "INSERT INTO asistencia (Nombre, cedula, telefono, cargo, fecha, hora_entrada, hora_salida)
+$sql = "INSERT INTO asistencias ( Fecha, Nombre, cedula, Telefono, Cargo, Hora_entrada, Hora_salida)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 // Preparar la declaración
@@ -61,7 +61,7 @@ if ($stmt === false) {
 }
 
 // Asignar parámetros y ejecutar la consulta
-$stmt->bind_param("sssssss", $Nombre, $cedula, $telefono, $cargo, $fecha, $hora_entrada, $hora_salida);
+$stmt->bind_param("sssssss",$Fecha, $Nombre, $cedula, $Telefono, $Cargo,  $Hora_entrada, $Hora_salida);
 
 // Ejecutar la consulta
 if ($stmt->execute()) {

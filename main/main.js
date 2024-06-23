@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function fetchParticipantData(cedula) {
-        fetch(`http://localhost/lectorqr/controllers/search_by_cedula.php?cedula=${cedula}`)
+        fetch(`http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
             .then(response => response.json())
             .then(data => {
                 console.log("Datos recibidos:", data);
@@ -81,12 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const horaEntrada = new Date().toLocaleTimeString('es-CO', { hour12: false }); // Obtener la hora actual en formato HH:mm:ss
     
         const asistenciaData = {
-            fecha: fecha,
+            Fecha: fecha,
             Nombre: persona.Nombre,
             cedula: persona.cedula,
-            telefono: persona.telefono,
-            cargo: persona.cargo,
-            hora_entrada: horaEntrada,
+            Telefono: persona.Telefono,
+            Cargo: persona.Cargo,
+            Hora_entrada: horaEntrada,
         };
     
         // Convertir el objeto asistenciaData a JSON
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
         console.log(jsonAsistenciaData); // Muestra los datos convertidos a JSON en la consola
     
-        fetch('http://localhost/lectorqr/controllers/sendattendance.php', {
+        fetch('http://localhost/lector-qr/controllers/sendattendance.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

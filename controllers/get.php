@@ -4,7 +4,7 @@ include 'config.php';
 
 try {
     // Realizamos la consulta a la base de datos
-    $consulta = $base_de_datos->query("SELECT * FROM asistencia");
+    $consulta = $base_de_datos->query("SELECT * FROM asistencias");
     
     // Obtenemos los resultados como un array asociativo
     $datos = $consulta->fetchAll(PDO::FETCH_ASSOC);

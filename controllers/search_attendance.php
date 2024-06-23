@@ -1,10 +1,10 @@
 <?php
-include '../cors.php';
-include '../config.php';
+include 'cors.php';
+include 'config.php';
 
 try {
     $cedula = $_GET['cedula'];
-    $consulta = $base_de_datos->prepare("SELECT * FROM asistencia WHERE cedula = :cedula");
+    $consulta = $base_de_datos->prepare("SELECT * FROM asistencias WHERE cedula = :cedula");
     $consulta->bindParam(':cedula', $cedula, PDO::PARAM_STR);
     $consulta->execute();
     

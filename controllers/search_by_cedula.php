@@ -7,7 +7,7 @@ try {
     $cedula = $_GET['cedula'];
 
     // Realizar la consulta a la base de datos
-    $consulta = $base_de_datos->prepare("SELECT * FROM personas WHERE cedula = :cedula");
+    $consulta = $base_de_datos->prepare("SELECT * FROM persona WHERE cedula = :cedula");
     $consulta->bindParam(':cedula', $cedula, PDO::PARAM_STR);
     $consulta->execute();
     

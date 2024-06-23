@@ -9,10 +9,10 @@ $dbname = 'lectorqr';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Get form data
-  $nombre = $_POST['nombre'];
-  $cedula = $_POST['cedula'];
-  $telefono = $_POST['telefono'];
-  $cargo = $_POST['cargo'];
+  $Nombre = $_POST['Nombre'];
+  $Cedula = $_POST['Cedula'];
+  $Telefono = $_POST['Telefono'];
+  $Cargo = $_POST['Cargo'];
 
   // Establish database connection
   $conn = new mysqli($servername, $username, $password, $dbname);
@@ -23,21 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Prepare SQL statement
-  $sql = "INSERT INTO personas (nombre, cedula, telefono, cargo) VALUES (?, ?, ?, ?)";
+  $sql = "INSERT INTO persona (Nombre, Cedula, Telefono, Cargo) VALUES (?, ?, ?, ?)";
 
   // Prepare and bind parameters
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("ssss", $nombre, $cedula, $telefono, $cargo);
+  $stmt->bind_param("ssss", $Nombre, $Cedula, $Telefono, $Cargo);
 
   // Execute query
   if ($stmt->execute()) {
     $response = [
       'message' => 'Datos guardados exitosamente!',
       'data' => [
-        'nombre' => $nombre,
-        'cedula' => $cedula,
-        'telefono' => $telefono,
-        'cargo' => $cargo,
+        'Nombre' => $Nombre,
+        'Cedula' => $Cedula,
+        'Telefono' => $Telefono,
+        'Cargo' => $Cargo,
       ],
     ];
   } else {

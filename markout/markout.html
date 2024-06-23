@@ -11,183 +11,92 @@
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
 </head>
 <body class="bg-gray-200 flex">
-    <!-- Sidebar -->
-    <aside class="bg-gray-800 text-gray-100 h-screen w-64 fixed left-0 top-0 overflow-y-auto">
-        <div class="flex flex-col h-full">
-            <div class="flex items-center justify-center h-20 border-b border-gray-700">
-                <h1 class="text-3xl font-bold">Menú</h1>
+    <!-- Barra de navegación -->
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center justify-start">
+                    <a href="https://sintraemsdes.org/" class="flex items-center font-bold">
+                        <img class="w-14 h-14 mr-3" src="simtraemdes.png" alt="Sintraemsdes Logo">
+                        Simtraemdes
+                    </a>
+                </div>
             </div>
-            <nav class="py-4">
-                <button onclick="navigateTo('../main/main.html')" class="block w-full py-2 px-4 text-sm font-bold text-gray-200 hover:bg-gray-700">Lector de Asistencia QR</button>
-                <button onclick="navigateTo('../markout/markout.html')" class="block w-full py-2 px-4 text-sm font-bold text-gray-200 hover:bg-gray-700">Marcar Salida</button>
-                <button onclick="navigateTo('../datatable/datatable.html')" class="block w-full py-2 px-4 text-sm font-bold text-gray-200 hover:bg-gray-700">Lista de participantes</button>
-                <button onclick="navigateTo('../createqr/createqr.html')" class="block w-full py-2 px-4 text-sm font-bold text-gray-200 hover:bg-gray-700">Crear nuevo QR</button>
-                <button onclick="navigateTo('../newperson/newperson.html')" class="block w-full py-2 px-4 text-sm font-bold text-gray-200 hover:bg-gray-700">Nueva Persona</button>
-            </nav>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div class="h-full px-3 pb-4 overflow-y-auto mt-5">
+            <ul class="space-y-2 font-medium">
+                <li>
+                    <a href="../main/main.html" class="flex items-center p-2 text-black rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-black">
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                            <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
+                            <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
+                        </svg>
+                        <span class="ml-3 text-black">Asistencia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../markout/markout.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="M15 12a1 1 0 0 1-1-1V8.586l-5 5a1 1 0 0 1-1.414 0l-5-5V11a1 1 0 0 1-2 0V5a1 1 0 0 1 1-1h6a1 1 0 0 1 0 2H3.414l4 4 4-4H11a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1Z"/>
+                            <path d="M17 18H1a1 1 0 1 0 0 2h16a1 1 0 1 0 0-2Z"/>
+                        </svg>
+                        <span class="ml-3 flex-1 whitespace-nowrap text-black">Marcar Salida</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../datatable/datatable.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                            <path d="M9 1a8 8 0 1 0 8 8A8.009 8.009 0 0 0 9 1Zm3.707 7.707-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L8 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                        </svg>
+                        <span class="ml-3 flex-1 whitespace-nowrap text-black">Lista de Asistentes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../createqr/createqr.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="M1 0a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2H1Zm2 16V6a1 1 0 0 0-2 0v10a4 4 0 0 0 4 4h10a1 1 0 0 0 0-2H5a2 2 0 0 1-2-2ZM16 4a1 1 0 0 0 0 2 2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a1 1 0 1 0 0 2h10a4 4 0 0 0 4-4V8a4 4 0 0 0-4-4Z"/>
+                        </svg>
+                        <span class="ml-3 flex-1 whitespace-nowrap text-black">Crear nuevo Qr</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../newperson/newperson.html" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                            <path d="M15.008 3.5 9.507 9l5.501 5.5a1 1 0 1 1-1.414 1.414L8.1 10.414l-5.5 5.5a1 1 0 0 1-1.415-1.414L6.686 9 1.186 3.5A1 1 0 0 1 2.6 2.086L8.1 7.586l5.494-5.5a1 1 0 1 1 1.414 1.414Z"/>
+                        </svg>
+                        <span class="ml-3 flex-1 whitespace-nowrap text-black">Nueva Persona</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </aside>
 
     <!-- Contenido principal -->
-    <main class="ml-64 flex-1 flex flex-col items-center justify-center min-h-screen">
-        <header>
-            <h1 class="text-3xl font-bold mt-4 mb-8">Marcar Salida Sintraemsdes</h1>
+    <main class="ml-64 flex-1 flex flex-col items-center justify-center min-h-screen bg-white mt-4">
+        <header class="w-full py-4 text-black text-center">
+            <h1 class="text-4xl font-extrabold mt-14">Marcar Salida Simtraemdes</h1>
         </header>
-        <section id="barcode-reader-container" class="container mx-auto p-4">
-            <div class="flex justify-center mb-4">
-                <video id="video" width="500" height="300" class="border border-black"></video>
-                <canvas id="canvas" width="500" height="300" class="hidden"></canvas>
+        <section id="barcode-reader-container" class="container mx-auto p-8 bg-white">
+            <div class="flex justify-center mb-6">
+                <video id="video" width="50%" height="auto" class="border-4 border-gray-300 rounded-lg"></video>
+                <canvas id="canvas" width="600" height="200" class="hidden"></canvas>
             </div>
-            <div id="barcode-reader-results" class="mt-4"></div>
-            <div class="flex justify-center mt-4 space-x-4">
-                <button id="stop-button-markout" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Detener Escaneo</button>
-                <button id="restart-button-markout" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Reanudar Escaneo</button>
+            <div id="barcode-reader-results" class="mt-4 text-center text-lg text-gray-700"></div>
+            <div class="flex justify-center mt-6 space-x-4">
+                <button id="stop-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow">
+                    Detener Escaneo
+                </button>
+                <button id="restart-button-markout" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow">
+                    Reanudar Escaneo
+                </button>
             </div>
         </section>
     </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const video = document.getElementById("video");
-            const canvas = document.getElementById("canvas");
-            const canvasContext = canvas.getContext("2d");
-            const barcodeReaderResults = document.getElementById("barcode-reader-results");
-            let scanning = false;
-
-            function navigateTo(url) {
-                window.location.href = url;
-            }
-
-            function startVideoMarkout() {
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-                    .then((stream) => {
-                        video.srcObject = stream;
-                        video.setAttribute("playsinline", true);
-                        video.play();
-                        scanning = true;
-                        requestAnimationFrame(tick);
-                    })
-                    .catch((error) => {
-                        console.error("Error al iniciar la cámara:", error);
-                    });
-            }
-
-            function stopVideoMarkout() {
-                const stream = video.srcObject;
-                if (stream) {
-                    const tracks = stream.getTracks();
-                    tracks.forEach((track) => track.stop());
-                    video.srcObject = null;
-                }
-                scanning = false;
-            }
-
-            function tick() {
-                if (!scanning) return;
-                if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                    canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
-                    if (code) {
-                        drawLine(code.location.topLeftCorner, code.location.topRightCorner, "red");
-                        drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "red");
-                        drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "red");
-                        drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "red");
-                        barcodeReaderResults.innerText = `Código QR Detectado: ${code.data}`;
-                        scanning = false;
-                        fetchParticipantDataMarkout(code.data);
-                    }
-                }
-                requestAnimationFrame(tick);
-            }
-
-            function drawLine(begin, end, color) {
-                canvasContext.beginPath();
-                canvasContext.moveTo(begin.x, begin.y);
-                canvasContext.lineTo(end.x, end.y);
-                canvasContext.lineWidth = 4;
-                canvasContext.strokeStyle = color;
-                canvasContext.stroke();
-            }
-
-            function fetchParticipantDataMarkout(cedula) {
-                fetch(`http://localhost/lectorqr/controllers/markout/search_attendance.php?cedula=${encodeURIComponent(cedula)}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Datos recibidos:", data);
-                        if (data.length > 0) {
-                            const asistencia = data[0];
-                            registrarAsistenciaMarkout(asistencia);
-                        } else {
-                            console.error('No se encontró la asistencia con la cédula proporcionada.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al obtener datos:', error);
-                        barcodeReaderResults.innerText = "Error al procesar la respuesta del servidor.";
-                    });
-            }
-
-            function registrarAsistenciaMarkout(asistencia) {
-                const horaSalida = new Date().toLocaleTimeString('es-CO', { hour12: false });
-
-                if (asistencia.hora_salida) {
-                    barcodeReaderResults.innerText = "Ya has marcado la salida anteriormente.";
-                    return;
-                }
-
-                const asistenciaData = {
-                    fecha: asistencia.fecha,
-                    nombre: asistencia.nombre,
-                    cedula: asistencia.cedula,
-                    telefono: asistencia.telefono,
-                    cargo: asistencia.cargo,
-                    hora_entrada: asistencia.hora_entrada,
-                    hora_salida: horaSalida
-                };
-
-                console.log('Datos de asistencia antes de enviar:', asistenciaData);
-
-                fetch('http://localhost/lectorqr/controllers/markout/markout.php', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(asistenciaData)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => { throw new Error(text); });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.error) {
-                        throw new Error(data.error);
-                    }
-                    console.log('Asistencia registrada:', data);
-                    barcodeReaderResults.innerText += "\nAsistencia registrada exitosamente.";
-                })
-                .catch(error => {
-                    console.error('Error al registrar asistencia:', error);
-                    barcodeReaderResults.innerText += `\nError al registrar asistencia: ${error.message}`;
-                });
-            }
-
-            document.getElementById("stop-button-markout").addEventListener("click", stopVideoMarkout);
-            document.getElementById("restart-button-markout").addEventListener("click", () => {
-                if (!scanning) {
-                    barcodeReaderResults.innerText = "";
-                    startVideoMarkout();
-                }
-            });
-
-            startVideoMarkout();
-        });
-    </script>
+    <script src="markout.js"></script>
 </body>
 </html>
