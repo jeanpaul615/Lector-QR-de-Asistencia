@@ -8,7 +8,7 @@
   <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
   <style>
-    /* Basic styles for DataTable */
+    /* Estilos para DataTable */
     table.dataTable {
       border-collapse: collapse;
       width: 100%;
@@ -71,6 +71,7 @@
     }
   </style>
   
+  
 </head>
 <body class="bg-white">
   <!-- Navigation -->
@@ -104,13 +105,10 @@
       <table id="myTable" class="min-w-full divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg">
         <thead>
           <tr>
-            <th class="px-6 py-3 text-left">Fecha</th>
             <th class="px-6 py-3 text-left">Nombre</th>
             <th class="px-6 py-3 text-left">Cedula</th>
             <th class="px-6 py-3 text-left">Telefono</th>
             <th class="px-6 py-3 text-left">Cargo</th>
-            <th class="px-6 py-3 text-left">Hora Entrada</th>
-            <th class="px-6 py-3 text-left">Hora Salida</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -132,7 +130,7 @@
     });
   
     function obtenerDatosAsistencia() {
-      fetch('http://localhost/lector-qr/controllers/get.php')
+      fetch('http://localhost/lector-qr/controllers/getpersonas.php')
         .then(response => response.json())
         .then(data => {
           console.log("Datos recibidos:", data);
@@ -171,24 +169,21 @@
   
       data.forEach(item => {
         const row = $('<tr>').appendTo(tbody);
-        $('<td>').text(item.Fecha).appendTo(row);
         $('<td>').text(item.Nombre).appendTo(row);
         $('<td>').text(item.cedula).appendTo(row);
         $('<td>').text(item.Telefono).appendTo(row);
         $('<td>').text(item.Cargo).appendTo(row);
-        $('<td>').text(item.Hora_entrada).appendTo(row);
-        $('<td>').text(item.Hora_salida).appendTo(row);
       });
     }
   
     document.getElementById('print-pdf-button').addEventListener('click', function () {
       var element = document.getElementById('myTable');
       var opt = {
-        margin: 0.5,
+        margin: [0.5, 0.5], // margen izquierdo y derecho de 0.5 pulgadas
         filename: 'attendance.pdf',
         image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' },
+        jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' },
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
       html2pdf().from(element).set(opt).save();

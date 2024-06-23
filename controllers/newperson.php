@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
   } else {
     $response = [
-      'message' => 'Error al guardar los datos en la base de datos'
+      'message' => 'Esta persona ya existe'
     ];
   }
 

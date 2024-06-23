@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const fileInput = document.getElementById("file-input");
     let scanning = false;
 
+
+
     function startVideo() {
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then((stream) => {
             video.srcObject = stream;
