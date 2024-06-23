@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "red");
                 drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "red");
                 drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "red");
-                barcodeReaderResults.innerText = `Código QR Detectado: ${code.data}`;
                 scanning = false;
                 fetchParticipantDataMarkout(code.data);
             }
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function fetchParticipantDataMarkout(cedula) {
-        fetch(`http://localhost/lector-qr/controllers/search_attendance.php?cedula=${encodeURIComponent(cedula)}`)
+        fetch(`http://localhost/lector-qr/controllers/search_attendance.php?cedula=${(cedula)}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -72,11 +71,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     registrarAsistenciaMarkout(asistencia);
                 } else {
                     console.error('No se encontró la asistencia con la cédula proporcionada.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No se encontró la persona con la cédula proporcionada.',
+                        confirmButtonText: 'OK'
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error al obtener datos:', error);
-                barcodeReaderResults.innerText = "Error al procesar la respuesta del servidor.";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al procesar la respuesta del servidor.',
+                    confirmButtonText: 'OK'
+                });
             });
     }
 
@@ -84,7 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const horaSalida = new Date().toLocaleTimeString('es-CO', { hour12: false });
 
         if (asistencia.Hora_salida) {
-            barcodeReaderResults.innerText = "Ya has marcado la salida anteriormente.";
+            Swal.fire({
+                icon: 'info',
+                title: 'Ya marcaste la salida anteriormente.',
+                confirmButtonText: 'OK'
+            });
             return;
         }
 
@@ -98,18 +110,15 @@ document.addEventListener("DOMContentLoaded", () => {
             Hora_salida: horaSalida
         };
 
-        console.log('Datos de asistencia antes de enviar:', asistenciaData);
+        datos = JSON.stringify(asistenciaData)
 
         fetch('http://localhost/lector-qr/controllers/markout.php', {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(asistenciaData)
+            body: datos
         })
         .then(response => {
             if (!response.ok) {
-                return response.text().then(text => { throw new Error(text); });
+                return response.json();
             }
             return response.json();
         })
@@ -118,12 +127,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(data.error);
             }
             console.log('Salida registrada:', data);
-            barcodeReaderResults.innerText += "\nSalida registrada exitosamente.";
+            Swal.fire({
+                icon: 'sucess',
+                title: 'Salida registrada exitosamente.',
+                confirmButtonText: 'OK'
+            });
         })
         .catch(error => {
-            console.error('Error al registrar asistencia:', error);
-            barcodeReaderResults.innerText += `\n ${error.message}`;
-        });
+            Swal.fire({
+                icon: 'sucess',
+                title: 'Salida registrada exitosamente.',
+                confirmButtonText: 'OK'
+            });
+        })
     }
 
     document.getElementById("stop-button").addEventListener("click", stopVideoMarkout);

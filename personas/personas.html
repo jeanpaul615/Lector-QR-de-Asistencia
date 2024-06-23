@@ -7,6 +7,8 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS para el modal -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
     /* Estilos para DataTable */
     table.dataTable {
@@ -81,9 +83,9 @@
       <img class="w-14 h-14" src="../main/simtraemdes.jpeg" alt="logo" />
       <div class="flex">
         <!-- Add your navigation links or components -->
-        <a href="../main/main.html" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
+        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
         <a href="../controllers/delete_attendance.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Nueva Asistencia</a>
-        <a href="../main/main.html" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar Sesión</a>
+        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar Sesión</a>
       </div>
     </div>
   </nav>
@@ -91,10 +93,10 @@
   <!-- Content -->
   <div class="container mx-auto">
     <div class="mb-4 flex justify-between items-center">
-      <h1 class="text-3xl font-bold">Lista de Participantes</h1>
+      <h1 class="text-3xl font-bold">Personas en la Base de Datos</h1>
       <div>
         <button id="print-pdf-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow">
-          Imprimir Asistencia en PDF
+          Imprimir Personas en PDF
         </button>
         <button id="export-excel-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow ml-2">
           Exportar a Excel
@@ -109,6 +111,7 @@
             <th class="px-6 py-3 text-left">Cedula</th>
             <th class="px-6 py-3 text-left">Telefono</th>
             <th class="px-6 py-3 text-left">Cargo</th>
+            <th class="px-6 py-3 text-left">Acciones</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -118,12 +121,14 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Bootstrap JS y Scripts Personalizados -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
     $(document).ready(function() {
       obtenerDatosAsistencia(); // Llamar a la función para obtener y agregar datos a la tabla
@@ -173,9 +178,33 @@
         $('<td>').text(item.cedula).appendTo(row);
         $('<td>').text(item.Telefono).appendTo(row);
         $('<td>').text(item.Cargo).appendTo(row);
+
+        // Botones de acción
+        const acciones = $('<td>').appendTo(row);
+        const btnEliminar = $('<button>').text('Eliminar').addClass('bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1').appendTo(acciones);
+        const btnActualizar = $('<button>').text('Actualizar').addClass('bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1').appendTo(acciones);
+
+        // Evento para eliminar (puedes vincular a una función o URL para manejar la eliminación)
+        btnEliminar.click(function() {
+          // Implementar acción de eliminación aquí
+          console.log('Eliminar:', item);
+        });
+
+        // Evento para actualizar
+        btnActualizar.click(function() {
+          // Llenar el formulario con los datos del elemento seleccionado
+          $('#idActualizar').val(item.id); // Suponiendo que tienes un campo `id` en tus datos
+          $('#nombreActualizar').val(item.Nombre);
+          $('#cedulaActualizar').val(item.cedula);
+          $('#telefonoActualizar').val(item.Telefono);
+          $('#cargoActualizar').val(item.Cargo);
+
+          // Mostrar el modal de actualización
+          $('#modalActualizar').modal('show');
+        });
       });
     }
-  
+
     document.getElementById('print-pdf-button').addEventListener('click', function () {
       var element = document.getElementById('myTable');
       var opt = {
@@ -196,6 +225,5 @@
       XLSX.writeFile(wb, 'attendance.xlsx');
     });
   </script>
-  
 </body>
 </html>

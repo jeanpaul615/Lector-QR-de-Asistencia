@@ -1,8 +1,9 @@
 <?php
 include '../cors.php';
+
 $servername = 'localhost';
 $username = 'root';
-$password = '';   
+$password = '';
 $dbname = 'lectorqr';
 
 try {
@@ -19,6 +20,9 @@ try {
     }
 
     // Verificar que se han recibido los campos obligatorios
+    if (!isset($data['Fecha'], $data['Nombre'], $data['cedula'], $data['Telefono'], $data['Cargo'], $data['Hora_entrada'], $data['Hora_salida'])) {
+        throw new Exception('Datos incompletos recibidos');
+    }
 
     // Asignar los datos recibidos a variables
     $Fecha = $data['Fecha'];
@@ -30,7 +34,7 @@ try {
     $Hora_salida = $data['Hora_salida'];
 
     // Preparar la declaración SQL para actualizar la asistencia
-    $stmt = $conn->prepare("UPDATE asistencias SET Fecha = :Fecha, Nombre = :Nombre, Telefono = :Telefono, Cargo = :Cargo,  Hora_entrada = :Hora_entrada, Hora_salida = :Hora_salida WHERE cedula = :cedula");
+    $stmt = $conn->prepare("UPDATE asistencias SET Fecha = :Fecha, Nombre = :Nombre, Telefono = :Telefono, Cargo = :Cargo, Hora_entrada = :Hora_entrada, Hora_salida = :Hora_salida WHERE cedula = :cedula");
     $stmt->bindParam(':Fecha', $Fecha);
     $stmt->bindParam(':Nombre', $Nombre);
     $stmt->bindParam(':cedula', $cedula);
