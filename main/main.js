@@ -78,7 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(error => {
                 console.error('Error al obtener datos:', error);
-                barcodeReaderResults.innerText = "Error al procesar la respuesta del servidor.";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al procesar servidor.',
+                    confirmButtonText: 'OK'
+                });
             });
     }
 
@@ -176,7 +180,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("stop-button").addEventListener("click", () => {
         stopVideo();
-        barcodeReaderResults.innerText = "Cámara detenida.";
+        Swal.fire({
+            icon: 'info',
+            title: 'Camara Detenida.',
+            confirmButtonText: 'OK'
+        });
     });
 
     document.getElementById("restart-button").addEventListener("click", () => {
