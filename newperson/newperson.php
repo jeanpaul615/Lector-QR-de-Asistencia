@@ -61,36 +61,53 @@
         });
 
         document.getElementById('new-person-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevenir el envío del formulario por defecto
+    event.preventDefault(); // Prevenir el envío del formulario por defecto
 
-            // Obtener los valores de los campos
-            var nombre = document.getElementById('Nombre').value;
-            var cedula = document.getElementById('Cedula').value;
-            var telefono = document.getElementById('Telefono').value;
-            var cargo = document.getElementById('Cargo').value;
+    // Obtener los valores de los campos
+    var nombre = document.getElementById('Nombre').value;
+    var cedula = document.getElementById('Cedula').value;
+    var telefono = document.getElementById('Telefono').value;
+    var cargo = document.getElementById('Cargo').value;
 
-            // Validar que los campos no estén vacíos
-            if (nombre === '' || cedula === '' || telefono === '' || cargo === '') {
-                Swal.fire('Por favor, llene todos los campos obligatorios.');
-                return;
-            }
+    // Validar que los campos no estén vacíos
+    if (nombre === '' || cedula === '' || telefono === '' || cargo === '') {
+        Swal.fire('Por favor, llene todos los campos obligatorios.');
+        return;
+    }
 
-            // Realizar la consulta AJAX para verificar si la persona ya existe
-            fetch(`http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
+    // Realizar la consulta AJAX para verificar si la persona ya existe
+    fetch(`http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                Swal.fire('La persona con la cédula proporcionada ya está registrada.');
+            } else {
+                // Si la persona no existe, enviar el formulario para su guardado
+                fetch('../controllers/newperson.php', {
+                    method: 'POST',
+                    body: new FormData(document.getElementById('new-person-form'))
+                })
                 .then(response => response.json())
-                .then(data => {
-                    if (data.exists) {
-                        Swal.fire('La persona con la cédula proporcionada ya está registrada.');
+                .then(response => {
+                    // Mostrar mensaje de éxito o error según la respuesta de la API
+                    if (response.message === 'Datos guardados exitosamente!') {
+                        Swal.fire('Éxito', response.message, 'success');
                     } else {
-                        // Si la persona no existe, enviar el formulario para su guardado
-                        document.getElementById('new-person-form').submit();
+                        Swal.fire('Error', response.message, 'error');
                     }
                 })
                 .catch(error => {
-                    console.error('Error al verificar persona:', error);
-                    Swal.fire('Error al verificar la existencia de la persona.');
+                    console.error('Error al guardar persona:', error);
+                    Swal.fire('Error al intentar guardar la persona.');
                 });
+            }
+        })
+        .catch(error => {
+            console.error('Error al verificar persona:', error);
+            Swal.fire('Error al verificar la existencia de la persona.');
         });
+});
+
     </script>
 </body>
 </html>
