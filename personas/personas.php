@@ -85,38 +85,24 @@
   }
 </style>
 
-<body class="bg-white">
-  <!-- Navigation -->
-  <nav class="nav-container">
-    <!-- Replace with your navigation content -->
-    <div class="flex justify-between items-center ml-5">
-      <img class="w-14 h-14" src="../main/simtraemdes.jpeg" alt="logo" />
-      <div class="flex">
-        <!-- Add your navigation links or components -->
-        <a href="../main/main.php"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
-        <a href="../main/main.php"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar
-          Sesión</a>
-      </div>
-    </div>
-  </nav>
+<body class="bg-gray-200 ">
+  <?php include '../partials/nav.php'; ?>
 
   <!-- Content -->
-  <div class="container mx-auto">
-    <div class="mb-4 flex justify-between items-center">
+  <div class="pt-20 pl-64 m-8">
+
+    <div class="mb-8 flex justify-between items-center">
       <h1 class="text-3xl font-bold">Personas en la Base de Datos</h1>
       <div>
-        <button id="print-pdf-button"
-          class="md:text-sm text-xs bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow">
+        <button id="print-pdf-button" class="md:text-sm text-xs bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow">
           Imprimir Personas en PDF
         </button>
-        <button id="export-excel-button"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow ml-2">
+        <button id="export-excel-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow ml-2">
           Exportar a Excel
         </button>
       </div>
     </div>
+
     <div>
       <table id="myTable" class="min-w-full divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg">
         <thead>
@@ -133,6 +119,7 @@
         </tbody>
       </table>
     </div>
+
   </div>
 
   <!-- Modal -->
@@ -218,7 +205,7 @@
             lengthMenu: [5, 10, 25, 50, 100],
             responsive: true,
             language: {
-              search: "Buscar:",
+              search: "<span class='text-blue-500 font-bold'>Buscar:</span>",
               lengthMenu: "Mostrar _MENU_ registros por página",
               info: "Mostrando página _PAGE_ de _PAGES_",
               infoEmpty: "No hay registros disponibles",
@@ -238,10 +225,10 @@
     }
 
     function agregarDatosATabla(data) {
-    const tbody = $("#myTable tbody");
-    tbody.empty();
+      const tbody = $("#myTable tbody");
+      tbody.empty();
 
-    data.forEach((item) => {
+      data.forEach((item) => {
         const row = $("<tr>").appendTo(tbody);
         $("<td>").text(item.Nombre).appendTo(row);
         $("<td>").text(item.cedula).appendTo(row);
@@ -250,139 +237,154 @@
 
         const acciones = $("<td>").appendTo(row);
         const btnEliminar = $("<button>")
-            .text("Eliminar")
-            .addClass("bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
-            .appendTo(acciones);
+          .text("Eliminar")
+          .addClass("bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
+          .appendTo(acciones);
 
         const btnActualizar = $("<button>")
-            .text("Actualizar")
-            .addClass("bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
-            .appendTo(acciones);
+          .text("Actualizar")
+          .addClass("bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
+          .appendTo(acciones);
 
         btnEliminar.click(function () {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    eliminarPersona(item.cedula);
-                }
-            });
+          Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              eliminarPersona(item.cedula);
+            }
+          });
         });
 
         btnActualizar.click(function () {
-            $("#exampleModal").removeClass("hidden");
-            $("#modal-title").text("Actualizar datos de " + item.Nombre);
+          $("#exampleModal").removeClass("hidden");
+          $("#modal-title").text("Actualizar datos de " + item.Nombre);
 
-            $("#nombre").val(item.Nombre);
-            $("#telefono").val(item.Telefono);
-            $("#cargo").val(item.Cargo);
+          $("#nombre").val(item.Nombre);
+          $("#telefono").val(item.Telefono);
+          $("#cargo").val(item.Cargo);
 
-            $("#guardarCambiosBtn")
-                .off("click")
-                .on("click", function () {
-                    item.Nombre = $("#nombre").val();
-                    item.Telefono = $("#telefono").val();
-                    item.Cargo = $("#cargo").val();
+          $("#guardarCambiosBtn")
+            .off("click")
+            .on("click", function () {
+              item.Nombre = $("#nombre").val();
+              item.Telefono = $("#telefono").val();
+              item.Cargo = $("#cargo").val();
 
-                    // Enviar datos actualizados al servidor
-                    $.ajax({
-                        url: "http://localhost/lector-qr/controllers/update_person.php",
-                        type: "POST",
-                        dataType: "json",
-                        data: {
-                            cedula: item.cedula,
-                            nombre: item.Nombre,
-                            telefono: item.Telefono,
-                            cargo: item.Cargo,
-                        },
-                        success: function (response) {
-                            console.log("Respuesta del servidor:", response);
-                            Swal.fire({
-                                icon: "success",
-                                title: "Se actualizó la persona.",
-                                confirmButtonText: "OK",
-                            });
-                            location.reload();
-                        },
-                        error: function (error) {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Error al actualizar persona.",
-                                confirmButtonText: "OK",
-                            });
-                            location.reload();
-                        },
-                    });
+              // Enviar datos actualizados al servidor
+              $.ajax({
+                url: "http://localhost/lector-qr/controllers/update_person.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                  cedula: item.cedula,
+                  nombre: item.Nombre,
+                  telefono: item.Telefono,
+                  cargo: item.Cargo,
+                },
+                success: function (response) {
+                  console.log("Respuesta del servidor:", response);
+                  Swal.fire({
+                    icon: "success",
+                    title: "Se actualizó la persona.",
+                    confirmButtonText: "OK",
+                  });
+                  location.reload();
+                },
+                error: function (error) {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Error al actualizar persona.",
+                    confirmButtonText: "OK",
+                  });
+                  location.reload();
+                },
+              });
 
-                    $("#exampleModal").addClass("hidden");
-                });
+              $("#exampleModal").addClass("hidden");
+            });
         });
-    });
-}
-function eliminarPersona(cedula) {
-    $.ajax({
+      });
+    }
+
+    function eliminarPersona(cedula) {
+      $.ajax({
         url: "http://localhost/lector-qr/controllers/delete_person.php",
         type: "POST",
         dataType: "json",
-        data: { cedula: cedula },
+        data: {
+          cedula: cedula
+        },
         success: function (response) {
-            console.log("Respuesta del servidor:", response);
-            Swal.fire({
-                icon: "success",
-                title: "Se eliminó la persona.",
-                confirmButtonText: "OK",
-            }).then(() => {
-              location.reload();
-            });
+          console.log("Respuesta del servidor:", response);
+          Swal.fire({
+            icon: "success",
+            title: "Se eliminó la persona.",
+            confirmButtonText: "OK",
+          }).then(() => {
+            location.reload();
+          });
         },
         error: function (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Error al eliminar persona.",
-                confirmButtonText: "OK",
-            });
+          Swal.fire({
+            icon: "error",
+            title: "Error al eliminar persona.",
+            confirmButtonText: "OK",
+          });
         },
-    });
-}
+      });
+    }
 
 
-      document
-        .getElementById("print-pdf-button")
-        .addEventListener("click", function () {
-          var element = document.getElementById("myTable");
-          var opt = {
-            margin: [0.5, 0.5],
-            filename: "attendance.pdf",
-            image: { type: "jpeg", quality: 1 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: "in", format: "a3", orientation: "landscape" },
-            pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-          };
-          html2pdf().from(element).set(opt).save();
-        });
+    document
+      .getElementById("print-pdf-button")
+      .addEventListener("click", function () {
+        var element = document.getElementById("myTable");
+        var opt = {
+          margin: [0.5, 0.5],
+          filename: "attendance.pdf",
+          image: {
+            type: "jpeg",
+            quality: 1
+          },
+          html2canvas: {
+            scale: 2,
+            useCORS: true
+          },
+          jsPDF: {
+            unit: "in",
+            format: "a3",
+            orientation: "landscape"
+          },
+          pagebreak: {
+            mode: ["avoid-all", "css", "legacy"]
+          },
+        };
+        html2pdf().from(element).set(opt).save();
+      });
 
-      document
-        .getElementById("export-excel-button")
-        .addEventListener("click", function () {
-          var wb = XLSX.utils.book_new();
-          var ws = XLSX.utils.table_to_sheet(
-            document.getElementById("myTable")
-          );
-          XLSX.utils.book_append_sheet(wb, ws, "Asistencia");
-          XLSX.writeFile(wb, "attendance.xlsx");
-        });
+    document
+      .getElementById("export-excel-button")
+      .addEventListener("click", function () {
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.table_to_sheet(
+          document.getElementById("myTable")
+        );
+        XLSX.utils.book_append_sheet(wb, ws, "Asistencia");
+        XLSX.writeFile(wb, "attendance.xlsx");
+      });
 
-      document
-        .getElementById("closeModalBtn")
-        .addEventListener("click", function () {
-          $("#exampleModal").addClass("hidden");
-        });
+    document
+      .getElementById("closeModalBtn")
+      .addEventListener("click", function () {
+        $("#exampleModal").addClass("hidden");
+      });
   </script>
 </body>
 
