@@ -385,6 +385,12 @@
       .addEventListener("click", function () {
         $("#exampleModal").addClass("hidden");
       });
+
+      
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      var sidebar = document.getElementById('logo-sidebar');
+      sidebar.classList.toggle('-translate-x-full');
+    });
   </script>
 </body>
 
