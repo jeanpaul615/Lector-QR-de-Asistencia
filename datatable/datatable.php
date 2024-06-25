@@ -104,7 +104,7 @@
   </nav>
 
   <!-- Content -->
-  <div class="container mx-auto pt-12 md:ml-64">
+  <div class="container mx-auto w-auto pl-20 pr-20 pt-12 md:ml-64 ">
     <div class="mb-4 flex justify-between items-center">
       <h1 class="text-3xl font-bold ">Lista de Participantes</h1>
       <div>
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div>
-      <table id="myTable" class="min-w-full divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg">
+      <table id="myTable" class="divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg">
         <thead>
           <tr>
             <th class="px-6 py-3 text-left">Fecha</th>
@@ -243,11 +243,5 @@
       sidebar.classList.toggle('-translate-x-full');
     });
   </script>
-<<<<<<< HEAD
-
 </body>
-
-=======
-</body>
->>>>>>> ad4f037c8e6024a7805c31d926dd34922c62979e
 </html>

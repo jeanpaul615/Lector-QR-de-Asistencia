@@ -85,11 +85,11 @@
   }
 </style>
 
-<body class="bg-gray-200 ">
+<body class="bg-white ">
   <?php include '../partials/nav.php'; ?>
 
   <!-- Content -->
-  <div class="pt-20 pl-64 m-8">
+  <div class="pt-20 md:pl-80 m-8 md:pr-36">
 
     <div class="mb-8 flex justify-between items-center">
       <h1 class="text-3xl font-bold">Personas en la Base de Datos</h1>
