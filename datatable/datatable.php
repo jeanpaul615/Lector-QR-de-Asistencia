@@ -86,6 +86,7 @@
 </head>
 
 <body class="bg-white">
+  <?php include '../partials/nav.php'; ?>
   <!-- Navigation -->
   <nav class="nav-container">
     <!-- Replace with your navigation content -->
@@ -93,29 +94,24 @@
       <img class="w-14 h-14" src="../partials/simtraemdes.jpeg" alt="logo" />
       <div class="flex items-end justify-center">
         <!-- Add your navigation links or components -->
-        <a href="../main/main.php"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
-        <button id="delete-attendance" href="../datatable/datatable.html"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Eliminar
+        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
+        <button id="delete-attendance" href="../datatable/datatable.html" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Eliminar
           asistencia</button>
-        <a href="../main/main.php"
-          class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar
+        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar
           Sesión</a>
       </div>
     </div>
   </nav>
 
   <!-- Content -->
-  <div class="container mx-auto">
+  <div class="container mx-auto pt-12 md:ml-64">
     <div class="mb-4 flex justify-between items-center">
-      <h1 class="text-3xl font-bold">Lista de Participantes</h1>
+      <h1 class="text-3xl font-bold ">Lista de Participantes</h1>
       <div>
-        <button id="print-pdf-button"
-          class="md:text-sm text-xs mb-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow">
+        <button id="print-pdf-button" class="md:text-sm text-xs mb-3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow">
           Imprimir Asistencia en PDF
         </button>
-        <button id="export-excel-button"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow ml-2">
+        <button id="export-excel-button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow ml-2">
           Exportar a Excel
         </button>
       </div>
@@ -147,7 +143,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       obtenerDatosAsistencia(); // Llamar a la función para obtener y agregar datos a la tabla
     });
 
@@ -201,27 +197,39 @@
       });
     }
 
-    document.getElementById('print-pdf-button').addEventListener('click', function () {
+    document.getElementById('print-pdf-button').addEventListener('click', function() {
       var element = document.getElementById('myTable');
       var opt = {
         margin: 0.5,
         filename: 'attendance.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'a3', orientation: 'landscape' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        image: {
+          type: 'jpeg',
+          quality: 1
+        },
+        html2canvas: {
+          scale: 2,
+          useCORS: true
+        },
+        jsPDF: {
+          unit: 'in',
+          format: 'a3',
+          orientation: 'landscape'
+        },
+        pagebreak: {
+          mode: ['avoid-all', 'css', 'legacy']
+        }
       };
       html2pdf().from(element).set(opt).save();
     });
 
-    document.getElementById('export-excel-button').addEventListener('click', function () {
+    document.getElementById('export-excel-button').addEventListener('click', function() {
       var wb = XLSX.utils.book_new();
       var ws = XLSX.utils.table_to_sheet(document.getElementById('myTable'));
       XLSX.utils.book_append_sheet(wb, ws, 'Asistencia');
       XLSX.writeFile(wb, 'attendance.xlsx');
     });
 
-    document.getElementById('delete-attendance').addEventListener('click', function () {
+    document.getElementById('delete-attendance').addEventListener('click', function() {
       fetch('http://localhost/lector-qr/controllers/delete_attendance.php')
         .then(response => response.json())
         .then(data => {
@@ -229,8 +237,11 @@
           location.reload();
         })
     });
+
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      var sidebar = document.getElementById('logo-sidebar');
+      sidebar.classList.toggle('-translate-x-full');
+    });
   </script>
-
 </body>
-
 </html>

@@ -30,7 +30,7 @@
                 <button id="stop-button" onclick="stopVideo()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg shadow">
                     Detener Escaneo
                 </button>
-                <button id="restart-button" onclick="restartVideo()" class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-lg shadow">
+                <button id="restart-button" onclick="restartVideo()" class="bg-green-800 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow">
                     Reanudar Escaneo
                 </button>
             </div>
