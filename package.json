@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "datatables.net": "^2.0.8",
+    "datatables.net-dt": "^2.0.8",
+    "jquery": "^3.7.1",
+    "jsqr": "^1.4.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  }
+}
