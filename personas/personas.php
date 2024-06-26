@@ -109,8 +109,8 @@
           <tr>
             <th class="px-6 py-3 text-left">Nombre</th>
             <th class="px-6 py-3 text-left">Cedula</th>
-            <th class="px-6 py-3 text-left">Telefono</th>
-            <th class="px-6 py-3 text-left">Cargo</th>
+            <th class="px-6 py-3 text-left  hidden md:table-cell">Telefono</th>
+            <th class="px-6 py-3 text-left  hidden md:table-cell">Cargo</th>
             <th class="px-6 py-3 text-left">Acciones</th>
           </tr>
         </thead>
@@ -189,208 +189,201 @@
   <!-- Custom JavaScript -->
   <script>
     $(document).ready(function () {
-      obtenerDatosAsistencia();
+  obtenerDatosAsistencia();
+  
+  $("#print-pdf-button").click(function () {
+    var element = document.getElementById("myTable");
+    var opt = {
+      margin: [0.5, 0.5],
+      filename: "attendance.pdf",
+      image: {
+        type: "jpeg",
+        quality: 1
+      },
+      html2canvas: {
+        scale: 2,
+        useCORS: true
+      },
+      jsPDF: {
+        unit: "in",
+        format: "a3",
+        orientation: "landscape"
+      },
+      pagebreak: {
+        mode: ["avoid-all", "css", "legacy"]
+      },
+    };
+    html2pdf().from(element).set(opt).save();
+  });
+
+  $("#export-excel-button").click(function () {
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.table_to_sheet(document.getElementById("myTable"));
+    XLSX.utils.book_append_sheet(wb, ws, "Asistencia");
+    XLSX.writeFile(wb, "attendance.xlsx");
+  });
+
+  $("#closeModalBtn").off("click").on("click", function () {
+  $("#exampleModal").addClass("hidden");
+});
+
+  $("#menu-toggle").click(function () {
+    $("#logo-sidebar").toggleClass("-translate-x-full");
+  });
+});
+
+function obtenerDatosAsistencia() {
+  fetch("http://localhost/lector-qr/controllers/getpersonas.php")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Datos recibidos:", data);
+      agregarDatosATabla(data);
+      $("#myTable").DataTable({
+        paging: true,
+        info: true,
+        searching: true,
+        lengthMenu: [5, 10, 25, 50, 100],
+        language: {
+          search: "<span class='text-blue-500 font-bold'>Buscar:</span>",
+          lengthMenu: "Mostrar _MENU_ registros por página",
+          info: "Mostrando página _PAGE_ de _PAGES_",
+          infoEmpty: "No hay registros disponibles",
+          infoFiltered: "(filtrado de _MAX_ registros en total)",
+          paginate: {
+            first: "Primero",
+            last: "Último",
+            next: "Siguiente",
+            previous: "Anterior",
+          },
+        },
+      });
+    })
+    .catch((error) => {
+      console.error("Error al obtener datos de asistencia:", error);
+    });
+}
+
+function agregarDatosATabla(data) {
+  const tbody = $("#myTable tbody");
+  tbody.empty();
+
+  data.forEach((item) => {
+    const row = $("<tr>").appendTo(tbody);
+    $("<td>").text(item.Nombre).appendTo(row);
+    $("<td>").text(item.cedula).appendTo(row);
+    // Columna para Teléfono visible en pantallas grandes, oculta en pequeñas
+    $("<td>").addClass("hidden md:table-cell").text(item.Telefono).appendTo(row);
+
+    // Columna para Cargo visible en pantallas grandes, oculta en pequeñas
+    $("<td>").addClass("hidden md:table-cell").text(item.Cargo).appendTo(row);
+
+
+
+    const acciones = $("<td>").appendTo(row);
+    const btnEliminar = $("<button>")
+      .text("Eliminar")
+      .addClass("bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
+      .appendTo(acciones);
+
+    const btnActualizar = $("<button>")
+      .text("Actualizar")
+      .addClass("bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
+      .appendTo(acciones);
+
+    btnEliminar.click(function () {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          eliminarPersona(item.cedula);
+        }
+      });
     });
 
-    function obtenerDatosAsistencia() {
-      fetch("http://localhost/lector-qr/controllers/getpersonas.php")
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Datos recibidos:", data);
-          agregarDatosATabla(data);
-          $("#myTable").DataTable({
-            paging: true,
-            info: true,
-            searching: true,
-            lengthMenu: [5, 10, 25, 50, 100],
-            responsive: true,
-            language: {
-              search: "<span class='text-blue-500 font-bold'>Buscar:</span>",
-              lengthMenu: "Mostrar _MENU_ registros por página",
-              info: "Mostrando página _PAGE_ de _PAGES_",
-              infoEmpty: "No hay registros disponibles",
-              infoFiltered: "(filtrado de _MAX_ registros en total)",
-              paginate: {
-                first: "Primero",
-                last: "Último",
-                next: "Siguiente",
-                previous: "Anterior",
-              },
+    btnActualizar.off("click").on("click", function () {
+      $("#exampleModal").removeClass("hidden");
+      $("#modal-title").text("Actualizar datos de " + item.Nombre);
+
+      $("#nombre").val(item.Nombre);
+      $("#telefono").val(item.Telefono);
+      $("#cargo").val(item.Cargo);
+
+      $("#guardarCambiosBtn")
+        .off("click")
+        .on("click", function () {
+          item.Nombre = $("#nombre").val();
+          item.Telefono = $("#telefono").val();
+          item.Cargo = $("#cargo").val();
+
+          $.ajax({
+            url: "http://localhost/lector-qr/controllers/update_person.php",
+            type: "POST",
+            dataType: "json",
+            data: {
+              cedula: item.cedula,
+              nombre: item.Nombre,
+              telefono: item.Telefono,
+              cargo: item.Cargo,
+            },
+            success: function (response) {
+              console.log("Respuesta del servidor:", response);
+              Swal.fire({
+                icon: "success",
+                title: "Se actualizó la persona.",
+                confirmButtonText: "OK",
+              });
+              location.reload();
+            },
+            error: function (error) {
+              Swal.fire({
+                icon: "error",
+                title: "Error al actualizar persona.",
+                confirmButtonText: "OK",
+              });
+              location.reload();
             },
           });
-        })
-        .catch((error) => {
-          console.error("Error al obtener datos de asistencia:", error);
+          $("#exampleModal").addClass("hidden");
         });
-    }
-
-    function agregarDatosATabla(data) {
-      const tbody = $("#myTable tbody");
-      tbody.empty();
-
-      data.forEach((item) => {
-        const row = $("<tr>").appendTo(tbody);
-        $("<td>").text(item.Nombre).appendTo(row);
-        $("<td>").text(item.cedula).appendTo(row);
-        $("<td>").text(item.Telefono).appendTo(row);
-        $("<td>").text(item.Cargo).appendTo(row);
-
-        const acciones = $("<td>").appendTo(row);
-        const btnEliminar = $("<button>")
-          .text("Eliminar")
-          .addClass("bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
-          .appendTo(acciones);
-
-        const btnActualizar = $("<button>")
-          .text("Actualizar")
-          .addClass("bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg shadow mx-1")
-          .appendTo(acciones);
-
-        btnEliminar.click(function () {
-          Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminarlo'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              eliminarPersona(item.cedula);
-            }
-          });
-        });
-
-        btnActualizar.click(function () {
-          $("#exampleModal").removeClass("hidden");
-          $("#modal-title").text("Actualizar datos de " + item.Nombre);
-
-          $("#nombre").val(item.Nombre);
-          $("#telefono").val(item.Telefono);
-          $("#cargo").val(item.Cargo);
-
-          $("#guardarCambiosBtn")
-            .off("click")
-            .on("click", function () {
-              item.Nombre = $("#nombre").val();
-              item.Telefono = $("#telefono").val();
-              item.Cargo = $("#cargo").val();
-
-              // Enviar datos actualizados al servidor
-              $.ajax({
-                url: "http://localhost/lector-qr/controllers/update_person.php",
-                type: "POST",
-                dataType: "json",
-                data: {
-                  cedula: item.cedula,
-                  nombre: item.Nombre,
-                  telefono: item.Telefono,
-                  cargo: item.Cargo,
-                },
-                success: function (response) {
-                  console.log("Respuesta del servidor:", response);
-                  Swal.fire({
-                    icon: "success",
-                    title: "Se actualizó la persona.",
-                    confirmButtonText: "OK",
-                  });
-                  location.reload();
-                },
-                error: function (error) {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Error al actualizar persona.",
-                    confirmButtonText: "OK",
-                  });
-                  location.reload();
-                },
-              });
-
-              $("#exampleModal").addClass("hidden");
-            });
-        });
-      });
-    }
-
-    function eliminarPersona(cedula) {
-      $.ajax({
-        url: "http://localhost/lector-qr/controllers/delete_person.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-          cedula: cedula
-        },
-        success: function (response) {
-          console.log("Respuesta del servidor:", response);
-          Swal.fire({
-            icon: "success",
-            title: "Se eliminó la persona.",
-            confirmButtonText: "OK",
-          }).then(() => {
-            location.reload();
-          });
-        },
-        error: function (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Error al eliminar persona.",
-            confirmButtonText: "OK",
-          });
-        },
-      });
-    }
-
-
-    document
-      .getElementById("print-pdf-button")
-      .addEventListener("click", function () {
-        var element = document.getElementById("myTable");
-        var opt = {
-          margin: [0.5, 0.5],
-          filename: "attendance.pdf",
-          image: {
-            type: "jpeg",
-            quality: 1
-          },
-          html2canvas: {
-            scale: 2,
-            useCORS: true
-          },
-          jsPDF: {
-            unit: "in",
-            format: "a3",
-            orientation: "landscape"
-          },
-          pagebreak: {
-            mode: ["avoid-all", "css", "legacy"]
-          },
-        };
-        html2pdf().from(element).set(opt).save();
-      });
-
-    document
-      .getElementById("export-excel-button")
-      .addEventListener("click", function () {
-        var wb = XLSX.utils.book_new();
-        var ws = XLSX.utils.table_to_sheet(
-          document.getElementById("myTable")
-        );
-        XLSX.utils.book_append_sheet(wb, ws, "Asistencia");
-        XLSX.writeFile(wb, "attendance.xlsx");
-      });
-
-    document
-      .getElementById("closeModalBtn")
-      .addEventListener("click", function () {
-        $("#exampleModal").addClass("hidden");
-      });
-
-      
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-      var sidebar = document.getElementById('logo-sidebar');
-      sidebar.classList.toggle('-translate-x-full');
     });
+  });
+}
+
+function eliminarPersona(cedula) {
+  $.ajax({
+    url: "http://localhost/lector-qr/controllers/delete_person.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      cedula: cedula
+    },
+    success: function (response) {
+      console.log("Respuesta del servidor:", response);
+      Swal.fire({
+        icon: "success",
+        title: "Se eliminó la persona.",
+        confirmButtonText: "OK",
+      }).then(() => {
+        location.reload();
+      });
+    },
+    error: function (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al eliminar persona.",
+        confirmButtonText: "OK",
+      });
+    },
+  });
+}
+
+
   </script>
 </body>
 

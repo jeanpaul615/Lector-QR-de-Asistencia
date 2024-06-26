@@ -81,30 +81,34 @@
         display: none !important;
       }
     }
-  </style>
 
+    /* Estilos para la barra de navegación */
+    .nav-container {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #e3e4e6;
+      padding: 10px 20px;
+    }
+  </style>
 </head>
 
 <body class="bg-white">
   <?php include '../partials/nav.php'; ?>
   <!-- Navigation -->
-  <nav class="nav-container">
+  <nav class="nav-container fixed w-full top-0 left-0 z-50">
     <!-- Replace with your navigation content -->
     <div class="flex justify-between items-center ml-5">
       <img class="w-14 h-14" src="../partials/simtraemdes.jpeg" alt="logo" />
-      <div class="flex items-end justify-center">
+      <div class="flex items-center space-x-4">
         <!-- Add your navigation links or components -->
         <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
-        <button id="delete-attendance" href="../datatable/datatable.html" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Eliminar
-          asistencia</button>
-        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar
-          Sesión</a>
+        <button id="delete-attendance" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Eliminar asistencia</button>
+        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar Sesión</a>
       </div>
     </div>
   </nav>
 
   <!-- Content -->
-  <div class="container mx-auto w-auto pl-20 pr-20 pt-12 md:ml-64 ">
+  <div class="container mx-auto w-auto pl-20 pr-20 pt-24 md:ml-64">
     <div class="mb-4 flex justify-between items-center">
       <h1 class="text-3xl font-bold ">Lista de Participantes</h1>
       <div>
@@ -244,4 +248,5 @@
     });
   </script>
 </body>
+
 </html>
