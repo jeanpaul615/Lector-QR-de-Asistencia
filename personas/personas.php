@@ -307,6 +307,7 @@ function agregarDatosATabla(data) {
     });
 
     btnActualizar.off("click").on("click", function () {
+
       $("#exampleModal").removeClass("hidden");
       $("#modal-title").text("Actualizar datos de " + item.Nombre);
 

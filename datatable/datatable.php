@@ -124,13 +124,13 @@
       <table id="myTable" class="divide-y divide-gray-200 shadow overflow-hidden sm:rounded-lg">
         <thead>
           <tr>
-            <th class="px-6 py-3 text-left">Fecha</th>
-            <th class="px-6 py-3 text-left">Nombre</th>
-            <th class="px-6 py-3 text-left">Cedula</th>
-            <th class="px-6 py-3 text-left">Telefono</th>
-            <th class="px-6 py-3 text-left">Cargo</th>
-            <th class="px-6 py-3 text-left">Hora Entrada</th>
-            <th class="px-6 py-3 text-left">Hora Salida</th>
+            <th class="px-2 md:px-6 py-3 text-left">Fecha</th>
+            <th class="px-2 md:px-6 py-3 text-left">Nombre</th>
+            <th class="px-2 md:px-6 py-3 text-left">Cedula</th>
+            <th class="px-2 md:px-6 py-3 text-left">Telefono</th>
+            <th class="px-2 md:px-6 py-3 text-left">Cargo</th>
+            <th class="px-2 md:px-6 py-3 text-left">Hora Entrada</th>
+            <th class="px-2 md:px-6 py-3 text-left">Hora Salida</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
