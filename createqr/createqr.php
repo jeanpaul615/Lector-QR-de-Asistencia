@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
+    <!--Vista encargada de crear qr para marcar la asistencia, basada en libreria qecode.min.js, 
+    permite digitar la cedula para obtener qr y registrar asistencias. -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +11,6 @@
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
 <?php include '../partials/nav.php'; ?>
-    
 <body>
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-12 sm:px-6 lg:px-8">
         <div class="max-w-md w-full bg-white p-8 shadow-md rounded-lg">
@@ -19,8 +20,6 @@
             <div id="qrcode" class="mt-6 flex justify-center"></div>
         </div>
     </div>
-    
-
     <!-- Script para generar el código QR -->
     <script>
         var qrcode = new QRCode(document.getElementById("qrcode"), {

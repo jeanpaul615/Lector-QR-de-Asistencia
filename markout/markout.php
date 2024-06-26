@@ -90,7 +90,7 @@
                     Detener Escaneo
                 </button>
                 <button id="restart-button-markout" class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-lg shadow">
-                    Reanudar Escaneo
+                    Marcar Salida
                 </button>
             </div>
         </section>

@@ -102,7 +102,6 @@
         <!-- Add your navigation links or components -->
         <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
         <button id="delete-attendance" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Eliminar asistencia</button>
-        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Cerrar Sesión</a>
       </div>
     </div>
   </nav>
@@ -150,7 +149,7 @@
     $(document).ready(function() {
       obtenerDatosAsistencia(); // Llamar a la función para obtener y agregar datos a la tabla
     });
-
+    //Fetch a la api que trae los datos para alimentar la datatable con los datos de las personas
     function obtenerDatosAsistencia() {
       fetch('http://localhost/lector-qr/controllers/get.php')
         .then(response => response.json())
@@ -184,11 +183,12 @@
           // Manejar el error según sea necesario
         });
     }
-
+    /*Función que permite agregar los datos a la tabla,
+     recibe los parametros de la api y los implementa como <td>*/
     function agregarDatosATabla(data) {
       const tbody = $('#myTable tbody');
       tbody.empty();
-
+      //itera en cada items para implementar todas las personas
       data.forEach(item => {
         const row = $('<tr>').appendTo(tbody);
         $('<td>').text(item.Fecha).appendTo(row);
@@ -200,12 +200,12 @@
         $('<td>').text(item.Hora_salida).appendTo(row);
       });
     }
-
+    //script para imprimir en pdf
     document.getElementById('print-pdf-button').addEventListener('click', function() {
       var element = document.getElementById('myTable');
       var opt = {
         margin: 0.5,
-        filename: 'attendance.pdf',
+        filename: 'asistencia.pdf',
         image: {
           type: 'jpeg',
           quality: 1
@@ -225,7 +225,7 @@
       };
       html2pdf().from(element).set(opt).save();
     });
-
+    //script encargado de exportar todos los datos de la tabla a un excel
     document.getElementById('export-excel-button').addEventListener('click', function() {
       var wb = XLSX.utils.book_new();
       var ws = XLSX.utils.table_to_sheet(document.getElementById('myTable'));
@@ -233,6 +233,8 @@
       XLSX.writeFile(wb, 'attendance.xlsx');
     });
 
+    /*Este fecth permite eliminar todos los datos de la tabla asistencias,
+    para poder realizar una nueva asistencia*/
     document.getElementById('delete-attendance').addEventListener('click', function() {
       fetch('http://localhost/lector-qr/controllers/delete_attendance.php')
         .then(response => response.json())
@@ -242,10 +244,6 @@
         })
     });
 
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-      var sidebar = document.getElementById('logo-sidebar');
-      sidebar.classList.toggle('-translate-x-full');
-    });
   </script>
 </body>
 

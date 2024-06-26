@@ -31,7 +31,7 @@
                     Detener Escaneo
                 </button>
                 <button id="restart-button" onclick="restartVideo()" class="bg-green-800 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow">
-                    Reanudar Escaneo
+                    Nueva Asistencia
                 </button>
             </div>
         </div>

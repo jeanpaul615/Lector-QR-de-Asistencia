@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+  <!-- Componente encargado de realizar el design del login, debe manejar autenticación -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

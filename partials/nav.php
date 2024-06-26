@@ -1,7 +1,7 @@
 <!-- nav.php -->
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3 flex items-center justify-between">
-        <a href="https://sintraemsdes.org/" class="flex items-center font-bold">
+        <a href="https://sintraemsdes.org/" class="md:flex items-center font-bold pt-1 hidden">
             <img class="w-14 h-14 mr-3" src="simtraemdes.jpeg" alt="Sintraemsdes Logo">
             Simtraemdes
         </a>
