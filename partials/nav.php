@@ -1,4 +1,5 @@
 <!-- nav.php -->
+<!-- Menu desplegable que permite su uso en version movil - responsive --> 
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3 flex items-center justify-between">
         <a href="https://sintraemsdes.org/" class="md:flex items-center font-bold pt-1 hidden">
@@ -12,6 +13,7 @@
         </button>
     </div>
 </nav>
+<!-- Items del aside en lista -->
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 transform -translate-x-full lg:translate-x-0 transition-transform duration-200">
         <div class="h-full px-3 pb-4 overflow-y-auto mt-5">
             <ul class="space-y-2 font-medium">

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const fileInput = document.getElementById("file-input");
   let scanning = false;
-
+//funcion que inicia el video del escaner, cambia el estado de la variable scanning = true
   function startVideo() {
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: "environment" } })
@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+//funcion que para el video del escaner, cambia el estado de la variable scanning = false
   function stopVideo() {
     const stream = video.srcObject;
     const tracks = stream.getTracks();

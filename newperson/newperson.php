@@ -53,7 +53,7 @@
             </div>
         </form>
     </div>
-
+<!-- script encargado de desplegar el sidebar -->
     <script>
         document.getElementById('menu-toggle').addEventListener('click', function() {
             var sidebar = document.getElementById('logo-sidebar');
@@ -98,7 +98,7 @@
                 })
                 .catch(error => {
                     console.error('Error al guardar persona:', error);
-                    Swal.fire('Error al intentar guardar la persona.');
+                    Swal.fire('Error al intentar guardar la persona.'); //alerta personalizada sweetalert2
                 });
             }
         })

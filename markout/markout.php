@@ -95,6 +95,7 @@
             </div>
         </section>
     </main>
+   <!-- script encargado de desplegar el sidebar --> 
     <script>
         document.getElementById('menu-toggle').addEventListener('click', function() {
             var sidebar = document.getElementById('logo-sidebar');
