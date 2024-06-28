@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetch("https://asistenciasistraemsdes.zeabur.app/controllers/markout.php", {
       method: "PUT",
-      body: datos
+      body: datos,
     })
       .then((response) => {
         if (!response.ok) {

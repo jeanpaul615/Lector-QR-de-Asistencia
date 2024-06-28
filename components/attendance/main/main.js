@@ -164,13 +164,14 @@ document.addEventListener("DOMContentLoaded", () => {
           Hora_entrada: horaEntrada
         };
 
-        // Convertir el objeto asistenciaData a JSON
-        const jsonAsistenciaData = JSON.stringify(asistenciaData);
 
         // Enviar la solicitud de registro de asistencia al servidor
         fetch("https://asistenciasistraemsdes.zeabur.app/controllers/sendattendance.php", {
           method: "POST",
-          body: jsonAsistenciaData
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(asistenciaData),
         })
           .then((response) => {
             if (!response.ok) {
