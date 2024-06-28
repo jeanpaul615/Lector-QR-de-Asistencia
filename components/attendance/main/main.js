@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchParticipantData(cedula) {
     search_attendance(cedula);
     fetch(
-      `https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`
+      `https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`
     )
       .then((response) => response.json())
       .then((data) => {

@@ -161,7 +161,7 @@ if (!isset($_SESSION['authenticated'])) {
     });
     //Fetch a la api que trae los datos para alimentar la datatable con los datos de las personas
     function obtenerDatosAsistencia() {
-      fetch('http://localhost/lector-qr/controllers/get.php')
+      fetch('https://asistenciasistraemsdes.zeabur.app/controllers/get.php')
         .then(response => response.json())
         .then(data => {
           console.log("Datos recibidos:", data);
@@ -246,7 +246,7 @@ if (!isset($_SESSION['authenticated'])) {
     /*Este fecth permite eliminar todos los datos de la tabla asistencias,
     para poder realizar una nueva asistencia*/
     document.getElementById('delete-attendance').addEventListener('click', function() {
-      fetch('http://localhost/lector-qr/controllers/delete_attendance.php')
+      fetch('https://asistenciasistraemsdes.zeabur.app/controllers/delete_attendance.php')
         .then(response => response.json())
         .then(data => {
           console.log("Asistencia Nueva");

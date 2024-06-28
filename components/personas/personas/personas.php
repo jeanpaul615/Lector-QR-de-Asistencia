@@ -243,7 +243,7 @@ if (!isset($_SESSION['authenticated'])) {
 });
 
 function obtenerDatosAsistencia() {
-  fetch("http://localhost/lector-qr/controllers/getpersonas.php")
+  fetch("https://asistenciasistraemsdes.zeabur.app/controllers/getpersonas.php")
     .then((response) => response.json())
     .then((data) => {
       console.log("Datos recibidos:", data);
@@ -333,7 +333,7 @@ function agregarDatosATabla(data) {
           item.Cargo = $("#cargo").val();
 
           $.ajax({
-            url: "http://localhost/lector-qr/controllers/update_person.php",
+            url: "https://asistenciasistraemsdes.zeabur.app/controllers/update_person.php",
             type: "POST",
             dataType: "json",
             data: {
@@ -368,7 +368,7 @@ function agregarDatosATabla(data) {
 
 function eliminarPersona(cedula) {
   $.ajax({
-    url: "http://localhost/lector-qr/controllers/delete_person.php",
+    url: "https://asistenciasistraemsdes.zeabur.app/controllers/delete_person.php",
     type: "POST",
     dataType: "json",
     data: {
