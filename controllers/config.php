@@ -1,8 +1,8 @@
 <?php
 include "cors.php";
-$servidor = 'localhost';
+$servidor = 'ewr1.clusters.zeabur.com';
 $usuario = 'root';
-$contrasena = '';   
+$contrasena = 'dvtOH2N6Y0pLjqyW1E9k73A8T45hCJzx';   
 $nombre_de_base = 'lectorqr';
 
 try{
