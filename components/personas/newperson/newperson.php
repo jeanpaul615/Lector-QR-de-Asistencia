@@ -1,13 +1,3 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['authenticated'])) {
-    header('Location: ../login/login.php');
-    exit();
-}
-
-// Aquí va el contenido de main.php
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
     
 </head>
 <!-- Sidebar -->
-<?php include '../../partials/nav.php'; ?>
+<?php include '../partials/nav.php'; ?>
 
 <body class="bg-gray-100 py-6 justify-center pt-24">
     <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-md">
@@ -86,14 +76,14 @@ if (!isset($_SESSION['authenticated'])) {
     }
 
     // Realizar la consulta AJAX para verificar si la persona ya existe
-    fetch(`https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`)
+    fetch(`http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
         .then(response => response.json())
         .then(data => {
             if (data.exists) {
                 Swal.fire('La persona con la cédula proporcionada ya está registrada.');
             } else {
                 // Si la persona no existe, enviar el formulario para su guardado
-                fetch('../../../controllers/newperson.php', {
+                fetch('../controllers/newperson.php', {
                     method: 'POST',
                     body: new FormData(document.getElementById('new-person-form'))
                 })
