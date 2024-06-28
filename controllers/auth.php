@@ -17,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($usuario) {
-            header("Location: ../main/main.php");
+            $_SESSION['authenticated'] = true;
+            header("Location: ../components/attendance/main/main.php");
             exit();
         } else {
             // Mensaje de error
@@ -26,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         $error = "Los campos están vacíos.";
-        header("Location: ../login/login.php");
+        header("Location: ../components/auth/login/login.php");
         echo "CAMPOS VACIOS";
     }
 }

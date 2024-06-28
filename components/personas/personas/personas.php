@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['authenticated'])) {
+    header('Location: ../login/login.php');
+    exit();
+}
+
+// Aquí va el contenido de main.php
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -86,7 +96,7 @@
 </style>
 
 <body class="bg-white ">
-  <?php include '../partials/nav.php'; ?>
+  <?php include '../../partials/nav.php'; ?>
 
   <!-- Content -->
   <div class="pt-20 md:pl-80 m-8 md:pr-36">

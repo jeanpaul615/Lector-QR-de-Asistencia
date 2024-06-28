@@ -25,7 +25,7 @@
         <p class="text-red-500 mb-2"><?php echo $error; ?></p>
       <?php endif; ?>
     </div>
-    <form id="loginForm" action="../controllers/auth.php" method="POST">
+    <form id="loginForm" action="../../../controllers/auth.php" method="POST">
       <div class="mb-4">
         <label for="cedula">
           <span class="block text-sm font-medium text-gray-700 italic">Cedula</span>

@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['authenticated'])) {
+    header('Location: ../login/login.php');
+    exit();
+}
+
+// Aquí va el contenido de main.php
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -92,15 +102,15 @@
 </head>
 
 <body class="bg-white">
-  <?php include '../partials/nav.php'; ?>
+  <?php include '../../partials/nav.php'; ?>
   <!-- Navigation -->
   <nav class="nav-container fixed w-full top-0 left-0 z-50">
     <!-- Replace with your navigation content -->
     <div class="flex justify-between items-center ml-5">
-      <img class="w-14 h-14" src="../partials/simtraemdes.jpeg" alt="logo" />
+      <img class="w-14 h-14" src="simtraemdes.jpeg" alt="logo" />
       <div class="flex items-center space-x-4">
         <!-- Add your navigation links or components -->
-        <a href="../main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
+        <a href="../../attendance/main/main.php" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Inicio</a>
         <button id="delete-attendance" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900">Eliminar asistencia</button>
       </div>
     </div>

@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['authenticated'])) {
+    header('Location: ../login/login.php');
+    exit();
+}
+
+// Aquí va el contenido de main.php
+?>
 <!DOCTYPE html>
 <html lang="es">
     <!--Vista encargada de crear qr para marcar la asistencia, basada en libreria qecode.min.js, 
@@ -10,7 +20,7 @@
     <!-- Incluye la librería qrcode.js desde un CDN -->
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
-<?php include '../partials/nav.php'; ?>
+<?php include '../../partials/nav.php'; ?>
 <body>
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-12 sm:px-6 lg:px-8">
         <div class="max-w-md w-full bg-white p-8 shadow-md rounded-lg">
