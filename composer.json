@@ -1,0 +1,9 @@
+{
+    "name": "lector-qr",
+    "description": "Lector de asistencias sindicato",
+    "require": {
+      "php": "^7.4 || ^8.0",
+      "ext-mysqli": "*"
+    }
+  }
+  
