@@ -10,7 +10,7 @@
     
 </head>
 <!-- Sidebar -->
-<?php include '../partials/nav.php'; ?>
+<?php include '../../partials/nav.php'; ?>
 
 <body class="bg-gray-100 py-6 justify-center pt-24">
     <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-md">
@@ -76,7 +76,7 @@
     }
 
     // Realizar la consulta AJAX para verificar si la persona ya existe
-    fetch(`http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
+    fetch(`https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`)
         .then(response => response.json())
         .then(data => {
             if (data.exists) {
