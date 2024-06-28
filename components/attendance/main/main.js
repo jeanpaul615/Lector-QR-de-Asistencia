@@ -83,36 +83,55 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function fetchParticipantData(cedula) {
-    search_attendance(cedula);
-    fetch(
-      `https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`
-    )
-      .then((response) => response.json())
+    search_attendance(cedula)
       .then((data) => {
-        console.log("Datos recibidos:", data);
         if (data.length > 0) {
-          const persona = data[0];
-          registrarAsistencia(persona);
-        } else {
-          console.error(
-            "No se encontró la persona con la cédula proporcionada."
-          );
+          console.log("Asistencia ya registrada:", data[0]);
           Swal.fire({
-            icon: "error",
-            title: "No se encontró la persona con la cédula proporcionada.",
+            icon: "info",
+            title: "Asistencia ya registrada.",
             confirmButtonText: "OK",
           });
+          return;
         }
+        fetch(
+          `https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Datos recibidos:", data);
+            if (data.length > 0) {
+              const persona = data[0];
+              registrarAsistencia(persona);
+            } else {
+              console.error(
+                "No se encontró la persona con la cédula proporcionada."
+              );
+              Swal.fire({
+                icon: "error",
+                title: "No se encontró la persona con la cédula proporcionada.",
+                confirmButtonText: "OK",
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error al obtener datos:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error al procesar servidor.",
+              confirmButtonText: "OK",
+            });
+          });
       })
       .catch((error) => {
-        console.error("Error al obtener datos:", error);
+        console.error("Error al verificar asistencia:", error);
         Swal.fire({
           icon: "error",
-          title: "Error al procesar servidor.",
+          title: "Error al registrar asistencia.",
           confirmButtonText: "OK",
         });
       });
-  }
+  }  
 
   function registrarAsistencia(persona) {
     const fecha = new Date().toISOString().split("T")[0]; // Obtener la fecha actual en formato YYYY-MM-DD
@@ -151,9 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Enviar la solicitud de registro de asistencia al servidor
         fetch("https://asistenciasistraemsdes.zeabur.app/controllers/sendattendance.php", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: jsonAsistenciaData,
         })
           .then((response) => {
