@@ -1,10 +1,10 @@
 <?php
 include "cors.php";
 
-$servidor = 'ewr1.clusters.zeabur.com';
+$servidor = 'viaduct.proxy.rlwy.net';
 $usuario = 'root';
-$contrasena = 'dvtOH2N6Y0pLjqyW1E9k73A8T45hCJzx';   
-$nombre_de_base = 'lectorqr';
+$contrasena = 'NGNVjkRLcvEdnDDXjugNgvAvsXbpRrZw';   
+$nombre_de_base = 'railway';
 
 try {
    $base_de_datos = new PDO("mysql:host=$servidor;dbname=$nombre_de_base", $usuario, $contrasena);
