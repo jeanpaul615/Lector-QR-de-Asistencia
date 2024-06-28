@@ -143,7 +143,6 @@ document.addEventListener("DOMContentLoaded", () => {
     datos = JSON.stringify(asistenciaData);
 
     fetch("https://asistenciasistraemsdes.zeabur.app/controllers/markout.php", {
-      method: "PUT",
       body: datos,
     })
       .then((response) => {
