@@ -49,7 +49,7 @@ if ($conn->connect_error) {
 }
 
 // Preparar consulta SQL para insertar asistencia (usando sentencias preparadas)
-$sql = "INSERT INTO asistencias ( Fecha, Nombre, cedula, Telefono, Cargo, Hora_entrada, Hora_salida)
+$sql = "INSERT INTO asistencias (Fecha, Nombre, cedula, Telefono, Cargo, Hora_entrada, Hora_salida)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 // Preparar la declaración
@@ -62,7 +62,7 @@ if ($stmt === false) {
 }
 
 // Asignar parámetros y ejecutar la consulta
-$stmt->bind_param("sssssss",$Fecha, $Nombre, $cedula, $Telefono, $Cargo,  $Hora_entrada, $Hora_salida);
+$stmt->bind_param("sssssss", $Fecha, $Nombre, $cedula, $Telefono, $Cargo, $Hora_entrada, $Hora_salida);
 
 // Ejecutar la consulta
 if ($stmt->execute()) {
