@@ -3,7 +3,7 @@ include "cors.php";
 
 $servidor = 'bwkztu6eqkuvlfujvsbt-mysql.services.clever-cloud.com';
 $usuario = 'uyyyxnxopbfcth39';
-$contrasena = 'NNdxw83fXg74yd0fayBrB';   
+$contrasena = 'Ndxw83fXg74yd0fayBrB';   
 $nombre_de_base = 'bwkztu6eqkuvlfujvsbt';
 
 try {
