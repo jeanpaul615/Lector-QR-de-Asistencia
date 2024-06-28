@@ -86,7 +86,7 @@ if (!isset($_SESSION['authenticated'])) {
     }
 
     // Realizar la consulta AJAX para verificar si la persona ya existe
-    fetch(`https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
+    fetch(`https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`)
         .then(response => response.json())
         .then(data => {
             if (data.exists) {

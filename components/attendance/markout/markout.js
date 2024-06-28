@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fetchParticipantDataMarkout(cedula) {
     fetch(
-      `https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/search_attendance.php?cedula=${cedula}`
+      `https://asistenciasistraemsdes.zeabur.app/controllers/search_attendance.php?cedula=${cedula}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     datos = JSON.stringify(asistenciaData);
 
-    fetch("https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/markout.php", {
+    fetch("https://asistenciasistraemsdes.zeabur.app/controllers/markout.php", {
       method: "PUT",
       body: datos,
     })
