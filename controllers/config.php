@@ -1,10 +1,10 @@
 <?php
 include "cors.php";
 
-$servidor = 'viaduct.proxy.rlwy.net';
-$usuario = 'root';
-$contrasena = 'NGNVjkRLcvEdnDDXjugNgvAvsXbpRrZw';   
-$nombre_de_base = 'railway';
+$servidor = 'bwkztu6eqkuvlfujvsbt-mysql.services.clever-cloud.com';
+$usuario = 'uyyyxnxopbfcth39';
+$contrasena = 'Ndxw83fXg74yd0fayBrBNGNVjkRLcvEdnDDXjugNgvAvsXbpRrZw';   
+$nombre_de_base = 'bwkztu6eqkuvlfujvsbt';
 
 try {
    $base_de_datos = new PDO("mysql:host=$servidor;dbname=$nombre_de_base", $usuario, $contrasena);
