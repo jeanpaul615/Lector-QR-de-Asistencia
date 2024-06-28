@@ -1,5 +1,6 @@
 <?php
 include 'cors.php';
+include 'config.php';
 
 // Obtener el contenido JSON enviado en la solicitud POST
 $inputJSON = file_get_contents('php://input');
