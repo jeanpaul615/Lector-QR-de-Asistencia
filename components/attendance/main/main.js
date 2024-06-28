@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchParticipantData(cedula) {
     search_attendance(cedula);
     fetch(
-      `http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`
+      `https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const jsonAsistenciaData = JSON.stringify(asistenciaData);
 
         // Enviar la solicitud de registro de asistencia al servidor
-        fetch("http://localhost/lector-qr/controllers/sendattendance.php", {
+        fetch("https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/sendattendance.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function search_attendance(cedula) {
     return fetch(
-      `http://localhost/lector-qr/controllers/search_attendance.php?cedula=${cedula}`
+      `https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/search_attendance.php?cedula=${cedula}`
     )
       .then((response) => response.json())
       .catch((error) => {

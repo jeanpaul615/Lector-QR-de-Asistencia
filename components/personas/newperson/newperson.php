@@ -86,14 +86,14 @@ if (!isset($_SESSION['authenticated'])) {
     }
 
     // Realizar la consulta AJAX para verificar si la persona ya existe
-    fetch(`http://localhost/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
+    fetch(`https://asistenciasistraemsdes.zeabur.app/lector-qr/controllers/search_by_cedula.php?cedula=${cedula}`)
         .then(response => response.json())
         .then(data => {
             if (data.exists) {
                 Swal.fire('La persona con la cédula proporcionada ya está registrada.');
             } else {
                 // Si la persona no existe, enviar el formulario para su guardado
-                fetch('../controllers/newperson.php', {
+                fetch('../../../controllers/newperson.php', {
                     method: 'POST',
                     body: new FormData(document.getElementById('new-person-form'))
                 })
