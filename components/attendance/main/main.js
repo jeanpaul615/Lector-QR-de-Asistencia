@@ -2,10 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const video = document.getElementById("video");
   const canvas = document.getElementById("canvas");
   const canvasContext = canvas.getContext("2d");
-  const barcodeReaderResults = document.getElementById("barcode-reader-results");
+  const barcodeReaderResults = document.getElementById(
+    "barcode-reader-results"
+  );
   const fileInput = document.getElementById("file-input");
   let scanning = false;
-
+//funcion que inicia el video del escaner, cambia el estado de la variable scanning = true
   function startVideo() {
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: "environment" } })
@@ -15,21 +17,13 @@ document.addEventListener("DOMContentLoaded", () => {
         video.play();
         scanning = true;
         requestAnimationFrame(tick);
-      })
-      .catch((error) => {
-        console.error("Error al acceder a la cámara:", error);
-        Swal.fire({
-          icon: "error",
-          title: "No se puede acceder a la cámara.",
-          text: error.message,
-          confirmButtonText: "OK",
-        });
       });
   }
 
+//funcion que para el video del escaner, cambia el estado de la variable scanning = false
   function stopVideo() {
     const stream = video.srcObject;
-    const tracks = stream ? stream.getTracks() : [];
+    const tracks = stream.getTracks();
 
     tracks.forEach((track) => {
       track.stop();
@@ -43,14 +37,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!scanning) return;
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+      const imageData = canvasContext.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
       const code = jsQR(imageData.data, imageData.width, imageData.height);
 
       if (code) {
-        drawLine(code.location.topLeftCorner, code.location.topRightCorner, "red");
-        drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "red");
-        drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "red");
-        drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "red");
+        drawLine(
+          code.location.topLeftCorner,
+          code.location.topRightCorner,
+          "red"
+        );
+        drawLine(
+          code.location.topRightCorner,
+          code.location.bottomRightCorner,
+          "red"
+        );
+        drawLine(
+          code.location.bottomRightCorner,
+          code.location.bottomLeftCorner,
+          "red"
+        );
+        drawLine(
+          code.location.bottomLeftCorner,
+          code.location.topLeftCorner,
+          "red"
+        );
         scanning = false; // Detener el escaneo después de detectar el QR
         fetchParticipantData(code.data);
       }
@@ -68,38 +83,101 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function fetchParticipantData(cedula) {
-    search_attendance(cedula)
+    search_attendance(cedula);
+    fetch(
+      `https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`
+    )
+      .then((response) => response.json())
       .then((data) => {
+        console.log("Datos recibidos:", data);
         if (data.length > 0) {
-          console.log("Asistencia ya registrada:", data[0]);
+          const persona = data[0];
+          registrarAsistencia(persona);
+        } else {
+          console.error(
+            "No se encontró la persona con la cédula proporcionada."
+          );
           Swal.fire({
-            icon: "info",
-            title: "Asistencia ya registrada.",
+            icon: "error",
+            title: "No se encontró la persona con la cédula proporcionada.",
             confirmButtonText: "OK",
           });
+        }
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error al procesar servidor.",
+          confirmButtonText: "OK",
+        });
+      });
+  }
+
+  function registrarAsistencia(persona) {
+    const fecha = new Date().toISOString().split("T")[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+    const horaEntrada = new Date().toLocaleTimeString("es-CO", {
+      hour12: false,
+    }); // Obtener la hora actual en formato HH:mm:ss
+
+    // Primero, verificar si la persona ya está registrada
+    search_attendance(persona.cedula)
+      .then((data) => {
+        if (data.length > 0) {
+          // Persona ya registrada, mostrar mensaje y salir de la función
+          console.log("Persona ya registrada:", data[0]);
+          Swal.fire({
+            icon: "info",
+            title: "Persona ya registrada.",
+            confirmButtonText: "OK",
+          });
+
           return;
         }
-        fetch(`https://asistenciasistraemsdes.zeabur.app/controllers/search_by_cedula.php?cedula=${cedula}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Datos recibidos:", data);
-            if (data.length > 0) {
-              const persona = data[0];
-              registrarAsistencia(persona);
-            } else {
-              console.error("No se encontró la persona con la cédula proporcionada.");
-              Swal.fire({
-                icon: "error",
-                title: "No se encontró la persona con la cédula proporcionada.",
-                confirmButtonText: "OK",
-              });
+
+        // Persona no registrada, proceder a registrar la asistencia
+        const asistenciaData = {
+          Fecha: fecha,
+          Nombre: persona.Nombre,
+          cedula: persona.cedula,
+          Telefono: persona.Telefono,
+          Cargo: persona.Cargo,
+          Hora_entrada: horaEntrada,
+        };
+
+        // Convertir el objeto asistenciaData a JSON
+        const jsonAsistenciaData = JSON.stringify(asistenciaData);
+
+        // Enviar la solicitud de registro de asistencia al servidor
+        fetch("https://asistenciasistraemsdes.zeabur.app/controllers/sendattendance.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: jsonAsistenciaData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
             }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.error) {
+              throw new Error(data.error);
+            }
+            console.log("Asistencia registrada:", data);
+            Swal.fire({
+              icon: "success",
+              title: "Asistencia Registrada.",
+              confirmButtonText: "OK",
+            });
           })
           .catch((error) => {
-            console.error("Error al obtener datos:", error);
+            console.error("Error al registrar la asistencia:", error);
             Swal.fire({
               icon: "error",
-              title: "Error al procesar servidor.",
+              title: "Error al registrar asistencia.",
               confirmButtonText: "OK",
             });
           });
@@ -114,57 +192,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  function registrarAsistencia(persona) {
-    const fecha = new Date().toISOString().split("T")[0]; // Obtener la fecha actual en formato YYYY-MM-DD
-    const horaEntrada = new Date().toLocaleTimeString("es-CO", {
-      hour12: false,
-    }); // Obtener la hora actual en formato HH:mm:ss
-
-    const asistenciaData = {
-      Fecha: fecha,
-      Nombre: persona.Nombre,
-      cedula: persona.cedula,
-      Telefono: persona.Telefono,
-      Cargo: persona.Cargo,
-      Hora_entrada: horaEntrada
-    };
-
-    fetch("https://asistenciasistraemsdes.zeabur.app/controllers/sendattendance.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(asistenciaData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.error) {
-          throw new Error(data.error);
-        }
-        console.log("Asistencia registrada:", data);
-        Swal.fire({
-          icon: "success",
-          title: "Asistencia Registrada.",
-          confirmButtonText: "OK",
-        });
-      })
-      .catch((error) => {
-        console.error("Error al registrar la asistencia:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error al registrar asistencia.",
-          confirmButtonText: "OK",
-        });
-      });
-  }
-
   function search_attendance(cedula) {
-    return fetch(`https://asistenciasistraemsdes.zeabur.app/controllers/search_attendance.php?cedula=${cedula}`)
+    return fetch(
+      `https://asistenciasistraemsdes.zeabur.app/controllers/search_attendance.php?cedula=${cedula}`
+    )
       .then((response) => response.json())
       .catch((error) => {
         console.error("Error al obtener datos de asistencia:", error);
@@ -202,7 +233,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const img = new Image();
       img.onload = () => {
         canvasContext.drawImage(img, 0, 0, canvas.width, canvas.height);
-        const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+        const imageData = canvasContext.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
         const code = jsQR(imageData.data, imageData.width, imageData.height);
 
         if (code) {
