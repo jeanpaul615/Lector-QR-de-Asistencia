@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
           cedula: persona.cedula,
           Telefono: persona.Telefono,
           Cargo: persona.Cargo,
-          Hora_entrada: horaEntrada,
+          Hora_entrada: horaEntrada
         };
 
         // Convertir el objeto asistenciaData a JSON
@@ -169,8 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Enviar la solicitud de registro de asistencia al servidor
         fetch("https://asistenciasistraemsdes.zeabur.app/controllers/sendattendance.php", {
-          method: "POST",
-          body: jsonAsistenciaData,
+          body: jsonAsistenciaData
         })
           .then((response) => {
             if (!response.ok) {

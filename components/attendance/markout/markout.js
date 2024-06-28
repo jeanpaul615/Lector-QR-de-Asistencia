@@ -137,13 +137,13 @@ document.addEventListener("DOMContentLoaded", () => {
       Telefono: asistencia.Telefono,
       Cargo: asistencia.Cargo,
       Hora_entrada: asistencia.Hora_entrada,
-      Hora_salida: horaSalida,
+      Hora_salida: horaSalida
     };
 
     datos = JSON.stringify(asistenciaData);
 
     fetch("https://asistenciasistraemsdes.zeabur.app/controllers/markout.php", {
-      body: datos,
+      body: datos
     })
       .then((response) => {
         if (!response.ok) {
