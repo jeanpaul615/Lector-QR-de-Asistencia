@@ -169,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Enviar la solicitud de registro de asistencia al servidor
         fetch("https://asistenciasistraemsdes.zeabur.app/controllers/sendattendance.php", {
+          method: "POST",
           body: jsonAsistenciaData
         })
           .then((response) => {
