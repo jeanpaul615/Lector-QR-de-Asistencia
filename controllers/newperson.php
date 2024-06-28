@@ -1,63 +1,36 @@
 <?php
-
+include "config.php";
 include "cors.php";
-$servername= 'localhost';
-$username = 'root';
-$password = '';   
-$dbname = 'lectorqr';
+session_start();
+header('Content-Type: application/json'); // Asegúrate de que la respuesta sea JSON
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-  // Get form data
-  $Nombre = $_POST['Nombre'];
-  $Cedula = $_POST['Cedula'];
-  $Telefono = $_POST['Telefono'];
-  $Cargo = $_POST['Cargo'];
-
-  // Establish database connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  // Check connection
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  }
-
-  // Prepare SQL statement
-  $sql = "INSERT INTO persona (Nombre, Cedula, Telefono, Cargo) VALUES (?, ?, ?, ?)";
-
-  // Prepare and bind parameters
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("ssss", $Nombre, $Cedula, $Telefono, $Cargo);
-
-  // Execute query
-  if ($stmt->execute()) {
-    $response = [
-      'message' => 'Datos guardados exitosamente!',
-      'data' => [
-        'Nombre' => $Nombre,
-        'Cedula' => $Cedula,
-        'Telefono' => $Telefono,
-        'Cargo' => $Cargo,
-      ],
-    ];
-  } else {
-    $response = [
-      'message' => 'Esta persona ya existe'
-    ];
-  }
-
-  // Close statement and connection
-  $stmt->close();
-  $conn->close();
-
-  // Set response content type as JSON
-  header('Content-Type: application/json');
-
-  // Encode data to JSON and echo response
-  echo json_encode($response);
-
-} else {
-  // Method is not POST, send error message
-  http_response_code(405);
-  echo json_encode(['message' => 'Método no permitido']);
+if (!isset($_SESSION['authenticated'])) {
+    echo json_encode(['message' => 'No autenticado']);
+    exit();
 }
+
+// Conexión a la base de datos
+$conexion = new mysqli('localhost', 'usuario', 'contraseña', 'base_de_datos');
+
+if ($conexion->connect_error) {
+    echo json_encode(['message' => 'Error de conexión a la base de datos: ' . $conexion->connect_error]);
+    exit();
+}
+
+$nombre = $_POST['Nombre'];
+$cedula = $_POST['Cedula'];
+$telefono = $_POST['Telefono'];
+$cargo = $_POST['Cargo'];
+
+// Aquí validas y guardas los datos
+$sql = "INSERT INTO personas (nombre, cedula, telefono, cargo) VALUES ('$nombre', '$cedula', '$telefono', '$cargo')";
+
+if ($conexion->query($sql) === TRUE) {
+    echo json_encode(['message' => 'Datos guardados exitosamente!']);
+} else {
+    echo json_encode(['message' => 'Error al guardar los datos: ' . $conexion->error]);
+}
+
+$conexion->close();
+?>
+
