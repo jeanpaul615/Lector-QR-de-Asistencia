@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/b1bbd41b-e990-472f-9a8a-977446fb77c2)
 
 # 📸 Lector QR de Asistencia
 
@@ -83,13 +84,6 @@ Lector-QR-de-Asistencia/
 └── README.md              # Documentación
 ```
 
----
-
-## 📸 **Capturas de Pantalla**
-
-> *(Agrega aquí capturas de pantalla del sistema en funcionamiento para que los usuarios puedan visualizarlo.)*
-
----
 
 ## 🤝 **Contribuciones**
 
